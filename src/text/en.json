@@ -1,0 +1,123 @@
+{
+  "nav": {
+    "home": "Home",
+    "about": "About",
+    "skills": "Skills",
+    "portfolio": "Portfolio",
+    "contact": "Contact"
+  },
+  "hero": {
+    "greeting": "Hi, I'm",
+    "name": "Ayush Singh",
+    "title": "Full Stack Developer",
+    "subtitle": "Building digital experiences with modern technologies",
+    "scrollPrompt": "Scroll to explore"
+  },
+  "about": {
+    "title": "About Me",
+    "description": "I'm a passionate full-stack developer with expertise in modern web technologies. I love creating innovative solutions and bringing ideas to life through code.",
+    "headline": {
+      "line1": "Creating",
+      "line2": "Digital",
+      "line3": "Experiences"
+    },
+    "stats": {
+      "experience": {
+        "number": "3+",
+        "label": "Years Experience"
+      },
+      "projects": {
+        "number": "20+",
+        "label": "Projects Completed"
+      }
+    },
+    "cta": "LET'S WORK TOGETHER"
+  },
+  "brands": {
+    "title": "Companies I Worked With",
+    "subtitle": "TRUSTED BY LEADING COMPANIES"
+  },
+  "skills": {
+    "title": "Skills & Technologies",
+    "headline": {
+      "line1": "Technical",
+      "line2": "Expertise"
+    },
+    "description": "Specialized in modern technologies and frameworks for building scalable digital solutions.",
+    "categories": {
+      "mern": "MERN Stack",
+      "blockchain": "Blockchain",
+      "ai": "Generative AI",
+      "automation": "Workflow Automation"
+    }
+  },
+  "certifications": {
+    "title": "Certifications",
+    "subtitle": "CREDENTIALS",
+    "headline": {
+      "line1": "Certified",
+      "line2": "Excellence"
+    },
+    "description": "Continuous learning and professional development through industry-recognized certifications.",
+    "loadMore": "LOAD MORE",
+    "items": [
+      { "title": "Infosys Certified Python Associate", "issuer": "Infosys Limited" },
+      { "title": "Infosys Certified Generative AI Associate", "issuer": "Infosys Limited" },
+      { "title": "Infosys Certified Python Developer", "issuer": "Infosys Limited" },
+
+      { "title": "Gen AI Certified Developer", "issuer": "Internshala" },
+      { "title": "Android Developer", "issuer": "CETPA InfoTech" }
+    ]
+  },
+  "portfolio": {
+    "title": "Featured Projects",
+    "headline": "Selected Work",
+    "projectLabel": "PROJECT",
+    "links": {
+      "viewProject": "VIEW PROJECT",
+      "github": "GITHUB"
+    },
+    "projects": [
+      {
+        "title": "Crypto Wallet",
+        "description": "A secure cryptocurrency wallet with multi-chain support",
+        "tech": ["React", "Web3.js", "Node.js", "MongoDB"]
+      },
+      {
+        "title": "Workflow Automation",
+        "description": "Automated business processes using AI and machine learning",
+        "tech": ["Python", "TensorFlow", "FastAPI", "PostgreSQL"]
+      },
+      {
+        "title": "PromptForge",
+        "description": "AI-powered prompt engineering platform for content creation",
+        "tech": ["Next.js", "OpenAI API", "Prisma", "Tailwind CSS"]
+      }
+    ]
+  },
+  "contact": {
+    "title": "Get In Touch",
+    "headline": {
+      "line1": "Let's Create",
+      "line2": "Something Great"
+    },
+    "description": "Ready to bring your ideas to life? Let's discuss your next project and create something extraordinary together.",
+    "info": {
+      "email": "singhaayu311@gmail.com",
+      "location": "New Delhi, IN"
+    },
+    "sections": {
+      "getInTouch": "Get In Touch",
+      "followMe": "Follow Me"
+    },
+    "form": {
+      "name": "Name",
+      "email": "Email",
+      "message": "Message",
+      "send": "Send Message"
+    }
+  },
+  "footer": {
+    "copyright": "© 2024 Ayush Singh. All rights reserved."
+  }
+}
