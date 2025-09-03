@@ -10,6 +10,8 @@ const Contact = () => {
     email: '',
     message: ''
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState(null);
 
   const handleChange = (e) => {
     setFormData({
@@ -18,9 +20,31 @@ const Contact = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Form submitted:', formData);
+    setIsSubmitting(true);
+    setSubmitStatus(null);
+
+    try {
+      const response = await fetch('http://localhost:5000/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData)
+      });
+
+      const result = await response.json();
+      
+      if (result.success) {
+        setSubmitStatus('success');
+        setFormData({ name: '', email: '', message: '' });
+      } else {
+        setSubmitStatus('error');
+      }
+    } catch (error) {
+      setSubmitStatus('error');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const socialLinks = [
@@ -106,11 +130,21 @@ const Contact = () => {
               <motion.button 
                 variants={fadeInUp}
                 type="submit"
-                className="group flex items-center space-x-3 text-white hover:text-gray-300 transition-colors duration-300 mt-12"
+                disabled={isSubmitting}
+                className="group flex items-center space-x-3 text-white hover:text-gray-300 transition-colors duration-300 mt-12 disabled:opacity-50"
               >
-                <span className="text-sm font-mono">{texts.contact.form.send.toUpperCase()}</span>
+                <span className="text-sm font-mono">
+                  {isSubmitting ? 'SENDING...' : texts.contact.form.send.toUpperCase()}
+                </span>
                 <div className="w-12 h-px bg-white group-hover:w-16 transition-all duration-300" />
               </motion.button>
+              
+              {submitStatus === 'success' && (
+                <p className="text-green-400 text-sm font-mono mt-4">Message sent successfully!</p>
+              )}
+              {submitStatus === 'error' && (
+                <p className="text-red-400 text-sm font-mono mt-4">Failed to send message. Please try again.</p>
+              )}
             </form>
           </motion.div>
           

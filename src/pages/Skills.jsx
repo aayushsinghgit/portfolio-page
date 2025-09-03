@@ -36,8 +36,11 @@ const Skills = () => {
       key: 'automation',
       skills: [
         { name: 'Docker', icon: 'https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/docker.svg' },
-        { name: 'AWS', icon: 'https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/amazonwebservices.svg' },
-        { name: 'GitHub Actions', icon: 'https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/githubactions.svg' }
+        { name: 'Selenium', icon: 'https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/selenium.svg' },
+        { name: 'Jenkins', icon: 'https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/jenkins.svg' },
+        { name: 'Kubernetes', icon: 'https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/kubernetes.svg' },
+        { name: 'GitHub Actions', icon: 'https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/githubactions.svg' },
+        { name: 'Terraform', icon: 'https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/terraform.svg' }
       ]
     }
   ];
@@ -86,7 +89,7 @@ const Skills = () => {
                   <div className="w-4 h-px bg-gray-600 group-hover:w-8 group-hover:bg-white transition-all duration-300" />
                 </div>
                 
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
                   {category.skills.map((skill, index) => (
                     <motion.div 
                       key={skill.name}
