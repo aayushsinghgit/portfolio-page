@@ -4,8 +4,6 @@ import texts from '../text/en.json';
 import { fadeInUp, staggerContainer } from '../utils/animations';
 
 const Certifications = () => {
-
-
   return (
     <section id="certifications" className="py-32 bg-black">
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
@@ -41,7 +39,9 @@ const Certifications = () => {
               <motion.div 
                 key={index}
                 variants={fadeInUp}
-                className="group border-b border-gray-900 pb-8 last:border-b-0"
+                whileHover={{ x: 10 }}
+                transition={{ duration: 0.3, ease: [0.6, -0.05, 0.01, 0.99] }}
+                className="group border-b border-gray-900 pb-8 last:border-b-0 cursor-pointer"
               >
                 <div className="flex items-start justify-between mb-4">
                   <div>

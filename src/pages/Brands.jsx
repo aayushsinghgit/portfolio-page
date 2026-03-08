@@ -4,8 +4,6 @@ import texts from '../text/en.json';
 import { fadeInUp } from '../utils/animations';
 
 const Brands = () => {
-
-
   const brands = [
     { name: 'Infosys Limited', logo: 'https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/infosys.svg' },
     { name: 'Appen', logo: '/media/companies/Appen.svg' },

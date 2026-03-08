@@ -9,13 +9,13 @@
   "hero": {
     "greeting": "Hi, I'm",
     "name": "Ayush Singh",
-    "title": "Full Stack Developer",
-    "subtitle": "Building digital experiences with modern technologies",
+    "title": "System Engineer | Infrastructure Full Stack Developer",
+    "subtitle": "Backend and AI-focused engineer with 3+ years of experience building scalable systems and AI-driven solutions",
     "scrollPrompt": "Scroll to explore"
   },
   "about": {
     "title": "About Me",
-    "description": "I'm a passionate full-stack developer with expertise in modern web technologies. I love creating innovative solutions and bringing ideas to life through code.",
+    "description": "Backend and data-focused engineer with 3+ years of experience at Infosys building backend services, AI workflows, and data-driven systems. Experienced in Python and Node.js development, Generative AI integrations using OpenAI APIs, large-scale AI data annotation pipelines, and analytics reporting. Strong foundation in full stack engineering, blockchain-based applications, and AI data operations.",
     "headline": {
       "line1": "Creating",
       "line2": "Digital",
@@ -45,10 +45,13 @@
     },
     "description": "Specialized in modern technologies and frameworks for building scalable digital solutions.",
     "categories": {
-      "mern": "MERN Stack",
+      "languages": "Languages",
+      "backend": "Backend",
+      "frontend": "Frontend",
       "blockchain": "Blockchain",
-      "ai": "Generative AI",
-      "automation": "Workflow Automation"
+      "ai": "AI & Data",
+      "databases": "Databases",
+      "tools": "Infrastructure & Tools"
     }
   },
   "certifications": {
@@ -61,12 +64,10 @@
     "description": "Continuous learning and professional development through industry-recognized certifications.",
     "loadMore": "LOAD MORE",
     "items": [
-      { "title": "Infosys Certified Python Associate", "issuer": "Infosys Limited" },
-      { "title": "Infosys Certified Generative AI Associate", "issuer": "Infosys Limited" },
-      { "title": "Infosys Certified Python Developer", "issuer": "Infosys Limited" },
-
-      { "title": "Gen AI Certified Developer", "issuer": "Internshala" },
-      { "title": "Android Developer", "issuer": "CETPA InfoTech" }
+      { "title": "OpenAI API Developer", "issuer": "Infosys" },
+      { "title": "Python Developer", "issuer": "Infosys" },
+      { "title": "Data Consultant", "issuer": "Infosys" },
+      { "title": "Generative AI Professional Developer", "issuer": "Infosys" }
     ]
   },
   "portfolio": {
@@ -80,18 +81,19 @@
     "projects": [
       {
         "title": "Crypto Wallet",
-        "description": "A secure cryptocurrency wallet with multi-chain support",
-        "tech": ["React", "Web3.js", "Node.js", "MongoDB"]
+        "description": "Decentralized crypto wallet enabling users to send and receive cryptocurrency using wallet addresses. Implemented Ethereum smart contracts using Solidity for secure on-chain transaction execution.",
+        "tech": ["React.js", "Tailwind CSS", "Solidity", "Node.js", "Ethereum"],
+        "link": "cryptowallet17.netlify.app"
       },
       {
-        "title": "Workflow Automation",
-        "description": "Automated business processes using AI and machine learning",
-        "tech": ["Python", "TensorFlow", "FastAPI", "PostgreSQL"]
+        "title": "CoCo - AI Agent and SaaS Application Marketplace",
+        "description": "Marketplace platform for AI agents and SaaS applications with integrated discovery and deployment capabilities.",
+        "tech": ["React.js", "Node.js", "AI Integration", "Marketplace"]
       },
       {
-        "title": "PromptForge",
-        "description": "AI-powered prompt engineering platform for content creation",
-        "tech": ["Next.js", "OpenAI API", "Prisma", "Tailwind CSS"]
+        "title": "Portfolio",
+        "description": "Personal portfolio website showcasing projects, skills, and professional experience with multilingual support.",
+        "tech": ["React.js", "Vite", "Tailwind CSS", "Three.js"]
       }
     ]
   },
@@ -104,7 +106,11 @@
     "description": "Ready to bring your ideas to life? Let's discuss your next project and create something extraordinary together.",
     "info": {
       "email": "singhaayu311@gmail.com",
-      "location": "New Delhi, IN"
+      "phone": "+91 74618 79795",
+      "location": "Dwarka, South West Delhi – 110078",
+      "linkedin": "linkedin.com/in/aayush-singh-172992220",
+      "portfolio": "ayushsingh17.netlify.app",
+      "cryptoWallet": "cryptowallet17.netlify.app"
     },
     "sections": {
       "getInTouch": "Get In Touch",

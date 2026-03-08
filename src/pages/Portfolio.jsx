@@ -4,14 +4,6 @@ import texts from '../text/en.json';
 import { fadeInUp, staggerContainer } from '../utils/animations';
 
 const Portfolio = () => {
-
-
-  const projectThumbnails = [
-    'https://images.unsplash.com/photo-1639762681485-074b7f938ba0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-    'https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-    'https://images.unsplash.com/photo-1677442136019-21780ecad995?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
-  ];
-
   return (
     <section id="portfolio" className="py-32 bg-black">
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
@@ -47,8 +39,6 @@ const Portfolio = () => {
               <div className={`grid grid-cols-1 lg:grid-cols-2 gap-16 items-center ${
                 index % 2 === 1 ? 'lg:grid-flow-col-dense' : ''
               }`}>
-
-                
                 <div className={`${index % 2 === 1 ? 'lg:col-start-2' : ''}`}>
                   <div className="relative overflow-hidden bg-gray-900 rounded-lg">
                     <div className="w-full h-80 bg-gray-800 animate-pulse flex items-center justify-center">
@@ -78,12 +68,14 @@ const Portfolio = () => {
                   
                   <div className="flex flex-wrap gap-3">
                     {project.tech.map((tech, techIndex) => (
-                      <span 
+                      <motion.span 
                         key={techIndex}
-                        className="text-xs font-mono text-gray-500 border border-gray-800 px-3 py-2 rounded"
+                        whileHover={{ scale: 1.1, y: -2 }}
+                        transition={{ duration: 0.2 }}
+                        className="text-xs font-mono text-gray-500 border border-gray-800 px-3 py-2 rounded hover:border-gray-700 hover:text-gray-400 transition-colors cursor-default"
                       >
                         {tech}
-                      </span>
+                      </motion.span>
                     ))}
                   </div>
                   

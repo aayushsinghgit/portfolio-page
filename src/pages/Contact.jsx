@@ -1,9 +1,16 @@
-import React, { useState } from 'react';
-import { motion } from 'framer-motion';
+import React, { useState, useRef } from 'react';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import texts from '../text/en.json';
 import { fadeInUp, staggerContainer } from '../utils/animations';
 
 const Contact = () => {
+  const ref = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start end", "end start"]
+  });
+  
+  const y = useTransform(scrollYProgress, [0, 1], [100, -100]);
 
   const [formData, setFormData] = useState({
     name: '',
@@ -55,23 +62,24 @@ const Contact = () => {
   ];
 
   return (
-    <section id="contact" className="py-32 bg-black">
+    <section id="contact" ref={ref} className="py-32 bg-[#0A0A0A] relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <motion.div
           variants={fadeInUp}
           initial="initial"
           whileInView="animate"
           viewport={{ once: true }}
+          style={{ y }}
           className="mb-20"
         >
-          <p className="text-sm font-mono text-gray-500 mb-6 tracking-wider">
+          <p className="text-sm font-mono text-gray-500 mb-6 tracking-wider uppercase">
             {texts.contact.title}
           </p>
           <h2 className="text-6xl lg:text-8xl font-display font-light text-white mb-10 leading-none tracking-tight">
             <span className="block text-balance">{texts.contact.headline.line1}</span>
             <span className="block text-gray-500 text-balance">{texts.contact.headline.line2}</span>
           </h2>
-          <div className="w-24 h-px bg-white/30" />
+          <div className="w-24 h-px bg-gradient-to-r from-white/30 to-transparent" />
         </motion.div>
         
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-16">
@@ -82,10 +90,10 @@ const Contact = () => {
             viewport={{ once: true }}
             className="lg:col-span-3"
           >
-            <form onSubmit={handleSubmit} className="space-y-8">
+            <form onSubmit={handleSubmit} className="glass-card p-8 space-y-8">
               <motion.div variants={fadeInUp} className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div className="group">
-                  <label className="block text-sm font-mono text-gray-500 mb-3">
+                  <label className="block text-sm font-mono text-gray-500 mb-3 uppercase tracking-wider">
                     {texts.contact.form.name}
                   </label>
                   <input
@@ -99,7 +107,7 @@ const Contact = () => {
                 </div>
                 
                 <div className="group">
-                  <label className="block text-sm font-mono text-gray-500 mb-3">
+                  <label className="block text-sm font-mono text-gray-500 mb-3 uppercase tracking-wider">
                     {texts.contact.form.email}
                   </label>
                   <input
@@ -114,7 +122,7 @@ const Contact = () => {
               </motion.div>
               
               <motion.div variants={fadeInUp} className="group">
-                <label className="block text-sm font-mono text-gray-500 mb-3">
+                <label className="block text-sm font-mono text-gray-500 mb-3 uppercase tracking-wider">
                   {texts.contact.form.message}
                 </label>
                 <textarea
@@ -131,19 +139,19 @@ const Contact = () => {
                 variants={fadeInUp}
                 type="submit"
                 disabled={isSubmitting}
-                className="group flex items-center space-x-3 text-white hover:text-gray-300 transition-colors duration-300 mt-12 disabled:opacity-50"
+                className="group flex items-center space-x-3 text-white hover:text-gray-300 transition-colors duration-300 mt-12 disabled:opacity-50 magnetic-button"
               >
-                <span className="text-sm font-mono">
+                <span className="text-sm font-mono uppercase tracking-wider">
                   {isSubmitting ? 'SENDING...' : texts.contact.form.send.toUpperCase()}
                 </span>
                 <div className="w-12 h-px bg-white group-hover:w-16 transition-all duration-300" />
               </motion.button>
               
               {submitStatus === 'success' && (
-                <p className="text-green-400 text-sm font-mono mt-4">Message sent successfully!</p>
+                <p className="text-green-400 text-sm font-mono mt-4 uppercase">Message sent successfully!</p>
               )}
               {submitStatus === 'error' && (
-                <p className="text-red-400 text-sm font-mono mt-4">Failed to send message. Please try again.</p>
+                <p className="text-red-400 text-sm font-mono mt-4 uppercase">Failed to send message. Please try again.</p>
               )}
             </form>
           </motion.div>
@@ -155,28 +163,28 @@ const Contact = () => {
             viewport={{ once: true }}
             className="lg:col-span-2 space-y-12"
           >
-            <motion.div variants={fadeInUp}>
-              <h3 className="text-3xl font-display font-light text-white mb-8 tracking-tight">{texts.contact.sections.getInTouch}</h3>
+            <motion.div variants={fadeInUp} className="glass-card p-6">
+              <h3 className="text-3xl font-display font-light text-white mb-8 tracking-tight uppercase">{texts.contact.sections.getInTouch}</h3>
               <p className="text-lg text-gray-400 font-light leading-relaxed mb-10 text-pretty">
                 {texts.contact.description}
               </p>
               
               <div className="space-y-4">
                 <div>
-                  <p className="text-sm font-mono text-gray-500 mb-1">EMAIL</p>
+                  <p className="text-sm font-mono text-gray-500 mb-1 uppercase tracking-wider">EMAIL</p>
                   <p className="text-white">{texts.contact.info.email}</p>
                 </div>
                 <div>
-                  <p className="text-sm font-mono text-gray-500 mb-1">LOCATION</p>
+                  <p className="text-sm font-mono text-gray-500 mb-1 uppercase tracking-wider">LOCATION</p>
                   <p className="text-white">{texts.contact.info.location}</p>
                 </div>
               </div>
             </motion.div>
             
-            <motion.div variants={fadeInUp}>
-              <h4 className="text-xl font-display font-light text-white mb-8 tracking-tight">{texts.contact.sections.followMe}</h4>
+            <motion.div variants={fadeInUp} className="glass-card p-6">
+              <h4 className="text-xl font-display font-light text-white mb-8 tracking-tight uppercase">{texts.contact.sections.followMe}</h4>
               <div className="space-y-3">
-                {socialLinks.map((link, index) => (
+                {socialLinks.map((link) => (
                   <a
                     key={link.name}
                     href={link.url}
@@ -184,7 +192,7 @@ const Contact = () => {
                     rel="noopener noreferrer"
                     className="group flex items-center justify-between py-2 border-b border-gray-900 hover:border-gray-800 transition-colors duration-300"
                   >
-                    <span className="text-sm font-mono text-gray-400 group-hover:text-white transition-colors duration-300">
+                    <span className="text-sm font-mono text-gray-400 group-hover:text-white transition-colors duration-300 uppercase tracking-wider">
                       {link.name}
                     </span>
                     <div className="w-4 h-px bg-gray-600 group-hover:w-8 group-hover:bg-white transition-all duration-300" />
