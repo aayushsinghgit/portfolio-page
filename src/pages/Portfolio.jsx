@@ -40,15 +40,30 @@ const Portfolio = () => {
                 index % 2 === 1 ? 'lg:grid-flow-col-dense' : ''
               }`}>
                 <div className={`${index % 2 === 1 ? 'lg:col-start-2' : ''}`}>
-                  <div className="relative overflow-hidden bg-gray-900 rounded-lg">
-                    <div className="w-full h-80 bg-gray-800 animate-pulse flex items-center justify-center">
+                  <motion.div 
+                    className="relative overflow-hidden rounded-lg bg-gray-900"
+                    whileHover={{ scale: 1.02 }}
+                    transition={{ duration: 0.4, ease: [0.6, -0.05, 0.01, 0.99] }}
+                  >
+                    {project.image ? (
+                      <img 
+                        src={project.image}
+                        alt={project.title}
+                        className="w-full h-80 object-cover"
+                        onError={(e) => {
+                          e.target.style.display = 'none';
+                          e.target.nextSibling.style.display = 'flex';
+                        }}
+                      />
+                    ) : null}
+                    <div className="w-full h-80 bg-gray-800 flex items-center justify-center" style={{ display: project.image ? 'none' : 'flex' }}>
                       <div className="text-gray-600">
                         <svg className="w-12 h-12" fill="currentColor" viewBox="0 0 20 20">
                           <path fillRule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clipRule="evenodd" />
                         </svg>
                       </div>
                     </div>
-                  </div>
+                  </motion.div>
                 </div>
                 
                 <div className={`space-y-6 ${index % 2 === 1 ? 'lg:col-start-1 lg:row-start-1' : ''}`}>
@@ -81,7 +96,9 @@ const Portfolio = () => {
                   
                   <div className="flex items-center space-x-8 pt-4">
                     <a 
-                      href="#" 
+                      href={project.link} 
+                      target="_blank"
+                      rel="noopener noreferrer"
                       className="group/link flex items-center space-x-3 text-white hover:text-gray-300 transition-colors duration-300"
                     >
                       <span className="text-sm font-mono">{texts.portfolio.links.viewProject}</span>
@@ -89,7 +106,9 @@ const Portfolio = () => {
                     </a>
                     
                     <a 
-                      href="#" 
+                      href={project.github} 
+                      target="_blank"
+                      rel="noopener noreferrer"
                       className="text-sm font-mono text-gray-500 hover:text-white transition-colors duration-300"
                     >
                       {texts.portfolio.links.github}

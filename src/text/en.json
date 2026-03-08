@@ -83,17 +83,25 @@
         "title": "Crypto Wallet",
         "description": "Decentralized crypto wallet enabling users to send and receive cryptocurrency using wallet addresses. Implemented Ethereum smart contracts using Solidity for secure on-chain transaction execution.",
         "tech": ["React.js", "Tailwind CSS", "Solidity", "Node.js", "Ethereum"],
-        "link": "cryptowallet17.netlify.app"
+        "link": "https://cryptowallet17.netlify.app",
+        "github": "https://github.com/aayushsinghgit",
+        "image": "https://cryptowallet17.netlify.app/preview.png"
       },
       {
         "title": "CoCo - AI Agent and SaaS Application Marketplace",
         "description": "Marketplace platform for AI agents and SaaS applications with integrated discovery and deployment capabilities.",
-        "tech": ["React.js", "Node.js", "AI Integration", "Marketplace"]
+        "tech": ["React.js", "Node.js", "AI Integration", "Marketplace"],
+        "link": "https://coco17.netlify.app",
+        "github": "https://github.com/aayushsinghgit",
+        "image": "https://coco17.netlify.app/preview.png"
       },
       {
         "title": "Portfolio",
         "description": "Personal portfolio website showcasing projects, skills, and professional experience with multilingual support.",
-        "tech": ["React.js", "Vite", "Tailwind CSS", "Three.js"]
+        "tech": ["React.js", "Vite", "Tailwind CSS", "Three.js"],
+        "link": "https://ayushsingh17.netlify.app",
+        "github": "https://github.com/aayushsinghgit/portfolio-page",
+        "image": "https://ayushsingh17.netlify.app/preview.png"
       }
     ]
   },
