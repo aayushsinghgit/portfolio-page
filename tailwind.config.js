@@ -7,9 +7,9 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        'sans': ['Inter', 'system-ui', 'sans-serif'],
+        'sans': ['Mona Sans', 'system-ui', 'sans-serif'],
         'mono': ['JetBrains Mono', 'Fira Code', 'monospace'],
-        'display': ['Playfair Display', 'serif'],
+        'display': ['Mona Sans', 'system-ui', 'sans-serif'],
       },
       fontSize: {
         'xs': ['0.75rem', { lineHeight: '1.5', letterSpacing: '0.05em' }],

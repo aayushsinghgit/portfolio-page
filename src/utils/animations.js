@@ -5,30 +5,54 @@ import Lenis from '@studio-freight/lenis';
 gsap.registerPlugin(ScrollTrigger);
 
 export const fadeInUp = {
-  initial: { opacity: 0, y: 60 },
+  initial: { opacity: 0, y: 40 },
   animate: { opacity: 1, y: 0 },
-  transition: { duration: 0.6, ease: "easeOut" }
+  transition: { duration: 0.6, ease: [0.6, -0.05, 0.01, 0.99] }
+};
+
+export const fadeIn = {
+  initial: { opacity: 0 },
+  animate: { opacity: 1 },
+  transition: { duration: 0.6 }
+};
+
+export const scaleIn = {
+  initial: { opacity: 0, scale: 0.9 },
+  animate: { opacity: 1, scale: 1 },
+  transition: { duration: 0.5, ease: [0.6, -0.05, 0.01, 0.99] }
+};
+
+export const slideInLeft = {
+  initial: { opacity: 0, x: -40 },
+  animate: { opacity: 1, x: 0 },
+  transition: { duration: 0.6, ease: [0.6, -0.05, 0.01, 0.99] }
+};
+
+export const slideInRight = {
+  initial: { opacity: 0, x: 40 },
+  animate: { opacity: 1, x: 0 },
+  transition: { duration: 0.6, ease: [0.6, -0.05, 0.01, 0.99] }
 };
 
 export const staggerContainer = {
   animate: {
     transition: {
       staggerChildren: 0.1,
-      delayChildren: 0.3
+      delayChildren: 0.1
     }
   }
 };
 
 export const initSmoothScroll = () => {
   const lenis = new Lenis({
-    duration: 1.5,
-    easing: (t) => 1 - Math.pow(1 - t, 3),
+    duration: 1.2,
+    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
     direction: 'vertical',
     gestureDirection: 'vertical',
     smooth: true,
-    mouseMultiplier: 1.2,
-    smoothTouch: true,
-    touchMultiplier: 1.5,
+    mouseMultiplier: 1,
+    smoothTouch: false,
+    touchMultiplier: 2,
     infinite: false,
   });
 
@@ -46,18 +70,22 @@ export const initSmoothScroll = () => {
 };
 
 export const initScrollAnimations = () => {
-  gsap.utils.toArray('.animate-on-scroll').forEach((element) => {
+  const elements = gsap.utils.toArray('.animate-on-scroll');
+  if (!elements.length) return;
+  
+  elements.forEach((element) => {
     gsap.fromTo(element, 
-      { opacity: 0, y: 50 },
+      { opacity: 0, y: 60 },
       {
         opacity: 1,
         y: 0,
         duration: 1,
+        ease: 'power3.out',
         scrollTrigger: {
           trigger: element,
-          start: 'top 80%',
-          end: 'bottom 20%',
-          toggleActions: 'play none none reverse'
+          start: 'top 85%',
+          toggleActions: 'play none none none',
+          once: true
         }
       }
     );

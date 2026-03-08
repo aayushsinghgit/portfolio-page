@@ -1,6 +1,5 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Mona+Sans:wght@200;300;400;500;600;700;800;900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@100;200;300;400;500;600;700;800&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -13,11 +12,12 @@
   }
   
   body {
-    @apply bg-white text-gray-900 font-sans;
+    @apply bg-black text-white font-sans;
     overflow-x: hidden;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    font-family: 'Mona Sans', system-ui, -apple-system, sans-serif;
   }
   
   h1, h2, h3, h4, h5, h6 {
@@ -51,14 +51,6 @@
 }
 
 @layer components {
-  .btn-primary {
-    @apply bg-gradient-primary text-white px-6 py-3 rounded-lg font-medium hover:shadow-lg transition-all duration-300;
-  }
-  
-  .section-padding {
-    @apply px-4 sm:px-6 lg:px-8 py-16 lg:py-24;
-  }
-  
   .text-balance {
     text-wrap: balance;
   }
