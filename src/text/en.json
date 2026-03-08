@@ -85,7 +85,7 @@
         "tech": ["React.js", "Tailwind CSS", "Solidity", "Node.js", "Ethereum"],
         "link": "https://cryptowallet17.netlify.app",
         "github": "https://github.com/aayushsinghgit",
-        "image": "https://cryptowallet17.netlify.app/preview.png"
+        "image": "https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=800&h=600&fit=crop&q=80"
       },
       {
         "title": "CoCo - AI Agent and SaaS Application Marketplace",
@@ -93,7 +93,7 @@
         "tech": ["React.js", "Node.js", "AI Integration", "Marketplace"],
         "link": "https://coco17.netlify.app",
         "github": "https://github.com/aayushsinghgit",
-        "image": "https://coco17.netlify.app/preview.png"
+        "image": "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&h=600&fit=crop&q=80"
       },
       {
         "title": "Portfolio",
@@ -101,7 +101,7 @@
         "tech": ["React.js", "Vite", "Tailwind CSS", "Three.js"],
         "link": "https://ayushsingh17.netlify.app",
         "github": "https://github.com/aayushsinghgit/portfolio-page",
-        "image": "https://ayushsingh17.netlify.app/preview.png"
+        "image": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=600&fit=crop&q=80"
       }
     ]
   },
