@@ -45,24 +45,12 @@ const Portfolio = () => {
                     whileHover={{ scale: 1.02 }}
                     transition={{ duration: 0.4, ease: [0.6, -0.05, 0.01, 0.99] }}
                   >
-                    {project.image ? (
-                      <img 
-                        src={project.image}
-                        alt={project.title}
-                        className="w-full h-80 object-cover"
-                        onError={(e) => {
-                          e.target.style.display = 'none';
-                          e.target.nextSibling.style.display = 'flex';
-                        }}
-                      />
-                    ) : null}
-                    <div className="w-full h-80 bg-gray-800 flex items-center justify-center" style={{ display: project.image ? 'none' : 'flex' }}>
-                      <div className="text-gray-600">
-                        <svg className="w-12 h-12" fill="currentColor" viewBox="0 0 20 20">
-                          <path fillRule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clipRule="evenodd" />
-                        </svg>
-                      </div>
-                    </div>
+                    <img 
+                      src={project.image}
+                      alt={project.title}
+                      className="w-full h-80 object-cover"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                   </motion.div>
                 </div>
                 
