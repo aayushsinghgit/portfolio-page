@@ -64,10 +64,38 @@
     "description": "Continuous learning and professional development through industry-recognized certifications.",
     "loadMore": "LOAD MORE",
     "items": [
-      { "title": "OpenAI API Developer", "issuer": "Infosys" },
-      { "title": "Python Developer", "issuer": "Infosys" },
-      { "title": "Data Consultant", "issuer": "Infosys" },
-      { "title": "Generative AI Professional Developer", "issuer": "Infosys" }
+      { 
+        "title": "OpenAI API Developer", 
+        "issuer": "OpenAI", 
+        "date": "Earned Dec 2023",
+        "id": "OP-827364",
+        "link": "https://openai.com",
+        "logo": "https://cdn.simpleicons.org/openai"
+      },
+      { 
+        "title": "Python Developer", 
+        "issuer": "Infosys", 
+        "date": "Earned Oct 2023",
+        "id": "INF-PY-928",
+        "link": "https://infosys.com",
+        "logo": "https://cdn.simpleicons.org/python"
+      },
+      { 
+        "title": "Data Consultant", 
+        "issuer": "Infosys", 
+        "date": "Earned Aug 2023",
+        "id": "INF-DC-442",
+        "link": "https://infosys.com",
+        "logo": "https://cdn.simpleicons.org/databricks"
+      },
+      { 
+        "title": "Generative AI Professional Developer", 
+        "issuer": "Google Cloud", 
+        "date": "Earned Jan 2024",
+        "id": "GC-GAI-771",
+        "link": "https://cloud.google.com",
+        "logo": "https://cdn.simpleicons.org/googlecloud"
+      }
     ]
   },
   "portfolio": {

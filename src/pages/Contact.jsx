@@ -62,7 +62,7 @@ const Contact = () => {
   ];
 
   return (
-    <section id="contact" ref={ref} className="py-32 bg-[#0A0A0A] relative overflow-hidden">
+    <section id="contact" ref={ref} className="py-32 bg-transparent relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <motion.div
           variants={fadeInUp}
@@ -90,7 +90,7 @@ const Contact = () => {
             viewport={{ once: true }}
             className="lg:col-span-3"
           >
-            <form onSubmit={handleSubmit} className="glass-card p-8 space-y-8">
+            <form onSubmit={handleSubmit} className="p-8 space-y-8 rounded-lg">
               <motion.div variants={fadeInUp} className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div className="group">
                   <label className="block text-sm font-mono text-gray-500 mb-3 uppercase tracking-wider">
@@ -163,7 +163,7 @@ const Contact = () => {
             viewport={{ once: true }}
             className="lg:col-span-2 space-y-12"
           >
-            <motion.div variants={fadeInUp} className="glass-card p-6">
+            <motion.div variants={fadeInUp} className="p-6 rounded-lg">
               <h3 className="text-3xl font-display font-light text-white mb-8 tracking-tight uppercase">{texts.contact.sections.getInTouch}</h3>
               <p className="text-lg text-gray-400 font-light leading-relaxed mb-10 text-pretty">
                 {texts.contact.description}
@@ -181,7 +181,7 @@ const Contact = () => {
               </div>
             </motion.div>
             
-            <motion.div variants={fadeInUp} className="glass-card p-6">
+            <motion.div variants={fadeInUp} className="p-6 rounded-lg">
               <h4 className="text-xl font-display font-light text-white mb-8 tracking-tight uppercase">{texts.contact.sections.followMe}</h4>
               <div className="space-y-3">
                 {socialLinks.map((link) => (

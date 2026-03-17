@@ -5,7 +5,7 @@ import { fadeInUp, staggerContainer } from '../utils/animations';
 
 const Portfolio = () => {
   return (
-    <section id="portfolio" className="py-32 bg-black">
+    <section id="portfolio" className="py-32 bg-transparent">
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <motion.div
           variants={fadeInUp}
