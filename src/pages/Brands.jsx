@@ -38,7 +38,7 @@ const Brands = () => {
                 <div className="w-20 h-20 opacity-30 group-hover:opacity-60 transition-opacity duration-300">
                   <img 
                     src={brand.logo} 
-                    alt={brand.name}
+                    alt={`${brand.name} logo`}
                     className="w-full h-full object-contain filter brightness-0 invert"
                   />
                 </div>

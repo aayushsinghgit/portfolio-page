@@ -47,7 +47,7 @@ const Portfolio = () => {
                   >
                     <img 
                       src={project.image}
-                      alt={project.title}
+                      alt={`Screenshot of ${project.title} project`}
                       className="w-full h-80 object-cover"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
@@ -87,6 +87,7 @@ const Portfolio = () => {
                       href={project.link} 
                       target="_blank"
                       rel="noopener noreferrer"
+                      aria-label={`View live demo of ${project.title}`}
                       className="group/link flex items-center space-x-3 text-white hover:text-gray-300 transition-colors duration-300"
                     >
                       <span className="text-sm font-mono">{texts.portfolio.links.viewProject}</span>
@@ -97,6 +98,7 @@ const Portfolio = () => {
                       href={project.github} 
                       target="_blank"
                       rel="noopener noreferrer"
+                      aria-label={`View source code of ${project.title} on GitHub`}
                       className="text-sm font-mono text-gray-500 hover:text-white transition-colors duration-300"
                     >
                       {texts.portfolio.links.github}

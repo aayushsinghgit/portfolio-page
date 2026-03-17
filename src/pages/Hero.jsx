@@ -50,6 +50,7 @@ const Hero = () => {
         >
           <a
             href="#portfolio"
+            aria-label="View my portfolio projects"
             className="group inline-flex items-center space-x-3 text-white hover:text-gray-300 transition-colors duration-300"
           >
             <span className="text-sm font-mono">VIEW WORK</span>
@@ -58,6 +59,7 @@ const Hero = () => {
 
           <a
             href="#contact"
+            aria-label="Navigate to contact section"
             className="group inline-flex items-center space-x-3 text-white hover:text-gray-300 transition-colors duration-300"
           >
             <span className="text-sm font-mono">GET IN TOUCH</span>
