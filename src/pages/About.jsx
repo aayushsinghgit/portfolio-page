@@ -54,6 +54,7 @@ const About = () => {
             <div className="pt-8">
               <a 
                 href="#contact" 
+                aria-label="Get in touch for collaboration"
                 className="group inline-flex items-center space-x-3 text-white hover:text-gray-300 transition-colors duration-300"
               >
                 <span className="text-sm font-mono">{texts.about.cta}</span>

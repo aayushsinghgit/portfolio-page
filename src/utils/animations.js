@@ -1,8 +1,4 @@
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Lenis from '@studio-freight/lenis';
-
-gsap.registerPlugin(ScrollTrigger);
 
 export const fadeInUp = {
   initial: { opacity: 0, y: 40 },
@@ -63,31 +59,11 @@ export const initSmoothScroll = () => {
 
   requestAnimationFrame(raf);
   
-  // Connect GSAP ScrollTrigger with Lenis
-  lenis.on('scroll', ScrollTrigger.update);
-  
   return lenis;
 };
 
 export const initScrollAnimations = () => {
-  const elements = gsap.utils.toArray('.animate-on-scroll');
-  if (!elements.length) return;
-  
-  elements.forEach((element) => {
-    gsap.fromTo(element, 
-      { opacity: 0, y: 60 },
-      {
-        opacity: 1,
-        y: 0,
-        duration: 1,
-        ease: 'power3.out',
-        scrollTrigger: {
-          trigger: element,
-          start: 'top 85%',
-          toggleActions: 'play none none none',
-          once: true
-        }
-      }
-    );
-  });
+  // Framer Motion handles variants automatically via whileInView.
+  // This legacy GSAP function is now a placeholder or can be safely removed
+  // if all components are using Framer Motion.
 };

@@ -102,11 +102,22 @@ const AnoAI = () => {
       renderer.setSize(window.innerWidth, window.innerHeight);
       material.uniforms.iResolution.value.set(window.innerWidth, window.innerHeight);
     };
+
+    const handleVisibilityChange = () => {
+      if (document.hidden) {
+        cancelAnimationFrame(frameId);
+      } else {
+        frameId = requestAnimationFrame(animate);
+      }
+    };
+
     window.addEventListener('resize', handleResize);
+    window.addEventListener('visibilitychange', handleVisibilityChange);
 
     return () => {
       cancelAnimationFrame(frameId);
       window.removeEventListener('resize', handleResize);
+      window.removeEventListener('visibilitychange', handleVisibilityChange);
       if (container.contains(renderer.domElement)) {
         container.removeChild(renderer.domElement);
       }

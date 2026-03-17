@@ -24,6 +24,7 @@ const Navbar = () => {
               <a
                 key={item.key}
                 href={item.href}
+                aria-label={`Navigate to ${item.key}`}
                 className="relative text-sm font-light text-gray-400 hover:text-white transition-all duration-300 group uppercase tracking-wider"
               >
                 <span className="relative z-10">

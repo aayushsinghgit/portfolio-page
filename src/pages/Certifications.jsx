@@ -77,6 +77,7 @@ const Certifications = () => {
                     href={cert.link} 
                     target="_blank"
                     rel="noopener noreferrer"
+                    aria-label={`Verify my ${cert.title} certification`}
                     className="group/link flex items-center space-x-3 text-white hover:text-gray-300 transition-colors duration-300"
                   >
                     <span className="text-xs font-mono uppercase tracking-widest">Verify Credential</span>

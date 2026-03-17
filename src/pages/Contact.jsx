@@ -90,7 +90,11 @@ const Contact = () => {
             viewport={{ once: true }}
             className="lg:col-span-3"
           >
-            <form onSubmit={handleSubmit} className="p-8 space-y-8 rounded-lg">
+            <form 
+              onSubmit={handleSubmit} 
+              aria-label="Contact form"
+              className="p-8 space-y-8 rounded-lg"
+            >
               <motion.div variants={fadeInUp} className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div className="group">
                   <label className="block text-sm font-mono text-gray-500 mb-3 uppercase tracking-wider">
@@ -190,6 +194,7 @@ const Contact = () => {
                     href={link.url}
                     target="_blank"
                     rel="noopener noreferrer"
+                    aria-label={`Follow me on ${link.name}`}
                     className="group flex items-center justify-between py-2 border-b border-gray-900 hover:border-gray-800 transition-colors duration-300"
                   >
                     <span className="text-sm font-mono text-gray-400 group-hover:text-white transition-colors duration-300 uppercase tracking-wider">
