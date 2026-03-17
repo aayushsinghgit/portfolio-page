@@ -65,6 +65,17 @@ const Hero = () => {
             <span className="text-sm font-mono">GET IN TOUCH</span>
             <div className="w-8 h-px bg-white group-hover:w-12 transition-all duration-300" />
           </a>
+
+          <a
+            href="/resume.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Download my resume"
+            className="group inline-flex items-center space-x-3 text-white hover:text-gray-300 transition-colors duration-300"
+          >
+            <span className="text-sm font-mono">{texts.hero.downloadResume.toUpperCase()}</span>
+            <div className="w-8 h-px bg-white group-hover:w-12 transition-all duration-300" />
+          </a>
         </motion.div>
 
         <motion.div

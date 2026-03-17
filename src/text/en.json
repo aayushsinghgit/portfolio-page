@@ -11,7 +11,8 @@
     "name": "Ayush Singh",
     "title": "System Engineer | Infrastructure Full Stack Developer",
     "subtitle": "Backend and AI-focused engineer with 3+ years of experience building scalable systems and AI-driven solutions",
-    "scrollPrompt": "Scroll to explore"
+    "scrollPrompt": "Scroll to explore",
+    "downloadResume": "Download Resume"
   },
   "about": {
     "title": "About Me",
@@ -119,7 +120,7 @@
         "title": "CoCo - AI Agent and SaaS Application Marketplace",
         "description": "Marketplace platform for AI agents and SaaS applications with integrated discovery and deployment capabilities.",
         "tech": ["React.js", "Node.js", "AI Integration", "Marketplace"],
-        "link": "https://coco17.netlify.app",
+        "link": "https://neuromarket17.netlify.app/",
         "github": "https://github.com/aayushsinghgit",
         "image": "https://v1.screenshot.11ty.dev/https%3A%2F%2Fcoco17.netlify.app/opengraph/"
       },
