@@ -7,61 +7,57 @@ const Hero = () => {
 
 
   return (
-    <section id="hero" className="min-h-screen flex items-center justify-center relative bg-black overflow-hidden pt-20">
-      <div className="absolute inset-0">
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl animate-pulse" />
-        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }} />
-      </div>
-      
-      <motion.div 
+    <section id="hero" className="min-h-screen flex items-center justify-center relative bg-transparent overflow-hidden pt-20">
+
+      <motion.div
         className="relative z-10 text-center px-6 max-w-5xl mx-auto w-full"
         variants={staggerContainer}
         initial="initial"
         animate="animate"
       >
-        <motion.div 
+        <motion.div
           variants={fadeInUp}
           className="inline-block px-4 py-2 border border-gray-800 rounded-full mb-8"
         >
           <span className="text-sm text-gray-400">👋 {texts.hero.greeting}</span>
         </motion.div>
 
-        <motion.h1 
+        <motion.h1
           variants={fadeInUp}
           className="text-6xl lg:text-8xl font-bold mb-6 leading-tight"
         >
           <span className="text-white">I'm </span>
           <span className="bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text text-transparent">{texts.hero.name}</span>
         </motion.h1>
-        
-        <motion.h2 
+
+        <motion.h2
           variants={fadeInUp}
           className="text-2xl lg:text-4xl font-light text-gray-400 mb-8"
         >
           {texts.hero.title}
         </motion.h2>
-        
-        <motion.p 
+
+        <motion.p
           variants={fadeInUp}
           className="text-lg text-gray-500 mb-12 max-w-2xl mx-auto leading-relaxed"
         >
           {texts.hero.subtitle}
         </motion.p>
-        
-        <motion.div 
+
+        <motion.div
           variants={fadeInUp}
           className="flex items-center justify-center gap-6 mb-16"
         >
-          <a 
-            href="#portfolio" 
+          <a
+            href="#portfolio"
             className="group inline-flex items-center space-x-3 text-white hover:text-gray-300 transition-colors duration-300"
           >
             <span className="text-sm font-mono">VIEW WORK</span>
             <div className="w-8 h-px bg-white group-hover:w-12 transition-all duration-300" />
           </a>
-          
-          <a 
-            href="#contact" 
+
+          <a
+            href="#contact"
             className="group inline-flex items-center space-x-3 text-white hover:text-gray-300 transition-colors duration-300"
           >
             <span className="text-sm font-mono">GET IN TOUCH</span>
@@ -69,7 +65,7 @@ const Hero = () => {
           </a>
         </motion.div>
 
-        <motion.div 
+        <motion.div
           variants={fadeInUp}
           className="flex items-center justify-center gap-8 text-sm text-gray-500"
         >

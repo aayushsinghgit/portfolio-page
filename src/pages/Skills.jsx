@@ -59,7 +59,7 @@ const Skills = () => {
   ];
 
   return (
-    <section id="skills" className="py-32 bg-black">
+    <section id="skills" className="py-32 bg-transparent">
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <motion.div
           variants={fadeInUp}

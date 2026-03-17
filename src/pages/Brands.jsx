@@ -13,7 +13,7 @@ const Brands = () => {
   ];
 
   return (
-    <section id="brands" className="py-20 bg-black border-y border-gray-900">
+    <section id="brands" className="py-20 bg-transparent border-y border-gray-900">
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <motion.div
           variants={fadeInUp}

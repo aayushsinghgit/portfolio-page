@@ -5,6 +5,7 @@ import { initSmoothScroll, initScrollAnimations } from './utils/animations';
 // Components
 import Navbar from './components/Navbar';
 import ScrollProgress from './components/ScrollProgress';
+import AnoAI from './components/ui/animated-shader-background';
 
 // Lazy load components
 const Hero = lazy(() => import('./pages/Hero'));
@@ -28,6 +29,7 @@ function App() {
   return (
     <LanguageProvider>
       <div className="App">
+        <AnoAI />
         <ScrollProgress />
         <Navbar />
         
