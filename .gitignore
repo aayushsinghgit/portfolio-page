@@ -29,4 +29,18 @@ dist-ssr
 .env.production
 
 # Build files
+# Build files
 build
+
+# Backend specifics
+server/node_modules
+server/.env
+server/embeddings-cache.json
+server/error.log
+
+# AI/Storage
+.cache
+.temp
+
+# Netlify
+.netlify

@@ -1,9 +1,51 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import texts from '../text/en.json';
+import { useLanguage } from '../context/LanguageContext';
 import { fadeInUp, staggerContainer } from '../utils/animations';
 
+const ProjectImage = ({ url, title }) => {
+  const [status, setStatus] = useState('loading'); // loading | loaded | errored
+  const screenshotUrl = `https://image.thum.io/get/width/800/crop/450/noanimate/${url}`;
+
+  return (
+    <div className="relative w-full h-80 bg-gray-900 overflow-hidden">
+      {/* Skeleton shimmer while loading */}
+      {status === 'loading' && (
+        <div className="absolute inset-0 bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 animate-pulse">
+          <div className="absolute bottom-6 left-6 space-y-2">
+            <div className="w-32 h-3 bg-gray-700 rounded" />
+            <div className="w-20 h-2 bg-gray-800 rounded" />
+          </div>
+        </div>
+      )}
+      {/* Fallback when screenshot fails */}
+      {status === 'errored' && (
+        <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-gray-900 border border-gray-800">
+          <svg className="w-10 h-10 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+          </svg>
+          <span className="text-xs font-mono text-gray-600 uppercase tracking-widest">{title}</span>
+          <a href={url} target="_blank" rel="noopener noreferrer"
+            className="text-xs font-mono text-gray-500 hover:text-white transition-colors border border-gray-700 px-3 py-1 rounded">
+            VISIT SITE →
+          </a>
+        </div>
+      )}
+      <img
+        src={screenshotUrl}
+        alt={`Screenshot of ${title}`}
+        className={`w-full h-full object-cover object-top transition-opacity duration-500 ${
+          status === 'loaded' ? 'opacity-100' : 'opacity-0'
+        }`}
+        onLoad={() => setStatus('loaded')}
+        onError={() => setStatus('errored')}
+      />
+    </div>
+  );
+};
+
 const Portfolio = () => {
+  const { texts } = useLanguage();
   return (
     <section id="portfolio" className="py-32 bg-transparent">
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
@@ -45,11 +87,7 @@ const Portfolio = () => {
                     whileHover={{ scale: 1.02 }}
                     transition={{ duration: 0.4, ease: [0.6, -0.05, 0.01, 0.99] }}
                   >
-                    <img 
-                      src={project.image}
-                      alt={`Screenshot of ${project.title} project`}
-                      className="w-full h-80 object-cover"
-                    />
+                    <ProjectImage url={project.link} title={project.title} />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                   </motion.div>
                 </div>

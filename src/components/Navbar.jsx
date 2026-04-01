@@ -1,7 +1,10 @@
 import React from 'react';
-import texts from '../text/en.json';
+import { useLanguage } from '../context/LanguageContext';
+import LanguageToggle from './LanguageToggle';
 
 const Navbar = () => {
+  const { texts } = useLanguage();
+
   const navItems = [
     { key: 'home', href: '#hero' },
     { key: 'about', href: '#about' },
@@ -34,6 +37,8 @@ const Navbar = () => {
               </a>
             ))}
           </div>
+
+          <LanguageToggle />
         </div>
       </div>
     </nav>
