@@ -5,14 +5,13 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "server": "cd server && npm start",
+    "server": "python -m uvicorn app:app --app-dir server --reload --host 0.0.0.0 --port 5000",
     "full": "concurrently \"npm run dev\" \"npm run server\"",
     "build": "vite build",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
   "dependencies": {
-    "@huggingface/inference": "^2.6.4",
     "@react-three/drei": "^9.92.7",
     "@react-three/fiber": "^8.15.12",
     "@studio-freight/lenis": "^1.0.27",

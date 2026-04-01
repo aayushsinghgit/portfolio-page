@@ -3,6 +3,8 @@ import { motion, useScroll, useTransform } from 'framer-motion';
 import texts from '../text/en.json';
 import { fadeInUp, staggerContainer } from '../utils/animations';
 
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+
 const Contact = () => {
   const ref = useRef(null);
   const { scrollYProgress } = useScroll({
@@ -33,7 +35,7 @@ const Contact = () => {
     setSubmitStatus(null);
 
     try {
-      const response = await fetch('http://localhost:5000/api/contact', {
+      const response = await fetch(`${API_URL}/api/contact`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData)

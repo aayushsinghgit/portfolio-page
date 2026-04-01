@@ -37,6 +37,10 @@ server/node_modules
 server/.env
 server/embeddings-cache.json
 server/error.log
+server/__pycache__
+server/*.pyc
+server/tests/__pycache__
+.venv
 
 # AI/Storage
 .cache

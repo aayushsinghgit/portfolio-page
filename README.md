@@ -1,60 +1,60 @@
 # Modern AI-Powered Portfolio
 
-A professional, full-stack portfolio website featuring a **Gemini 2.0 Powered RAG Chatbot**, multilingual support, and high-performance 3D animations.
+Full-stack portfolio with React frontend and Python (FastAPI) backend, including Gemini-powered RAG chat with resilient fallback responses.
 
-## 🌟 Key Features
+## Key Features
 
-- **🤖 AI Assistant (RAG)**: Context-aware chatbot trained on Ayush's resume using Google Gemini 2.0 and PDF-based Retrieval-Augmented Generation.
-- **🎙️ Voice Interface**: Hands-free interaction via Web Speech API integration.
-- **🌐 Multilingual**: Seamless English/Hindi toggle with dynamic AI response translation.
-- **🚀 Ultra-Fast**: Built with Vite and optimized for core web vitals.
-- **🎨 Premium UI**: Smooth animations using Framer Motion, GSAP, and 3D scenes with React Three Fiber.
-- **📧 Smart Contact**: Direct email triggers and form validation.
+- AI chatbot with RAG over resume data (`public/resume.pdf`)
+- Dual-language support (English/Hindi)
+- Voice input in chat
+- Contact form API + email delivery
+- Graceful chatbot fallback when AI API/backend is unavailable
 
-## 📁 Project Structure
+## Project Structure
 
-```
+```txt
 .
 ├── src/                # Frontend (React + Vite)
-│   ├── components/     # UI Components (Chatbot, Scene3D, etc.)
-│   ├── pages/          # Portfolio Sections
-│   └── context/        # State Management
-├── server/             # Backend (Node.js + Express)
-│   ├── rag.js          # Gemini RAG Logic & Vector Storage
-│   ├── server.js       # Express API Endpoints
-│   └── tests/          # Backend Test Scripts
-└── public/             # Static Assets (Resume.pdf, etc.)
+├── server/             # Backend (Python + FastAPI)
+│   ├── app.py          # API endpoints
+│   ├── rag.py          # Gemini RAG + fallback logic
+│   ├── requirements.txt
+│   └── env.example
+└── public/             # Static assets (resume.pdf)
 ```
 
-## 🛠️ Getting Started
+## Local Development
 
-### 1. Frontend Setup
+### Frontend
 ```bash
 npm install
 npm run dev
 ```
 
-### 2. Backend Setup
+### Backend
 ```bash
-cd server
-npm install
-# Create .env based on env.example with your GOOGLE_API_KEY
-npm start
+python -m venv .venv
+.venv\Scripts\activate
+pip install -r server/requirements.txt
+copy server/env.example server/.env
+python -m uvicorn app:app --app-dir server --reload --host 0.0.0.0 --port 5000
 ```
 
-## 🔑 Environment Variables
+## Environment Variables
 
-- **Frontend**: `VITE_API_URL` (Point to your backend)
-- **Backend**: `GOOGLE_API_KEY` (Get from AI Studio)
+Frontend:
+- `VITE_API_URL=http://localhost:5000`
 
-## 🎨 Technologies Used
+Backend (`server/.env`):
+- `GOOGLE_API_KEY`
+- `EMAIL_USER`
+- `EMAIL_PASS`
+- `CONTACT_TO_EMAIL` (optional)
+- `PORT` (optional)
 
-- **Frontend**: React 18, Vite, TailwindCSS, Framer Motion, Three.js
-- **Backend**: Node.js, Express, LangChain (Text Splitters), Google GenAI SDK
-- **AI**: Gemini 2.0 Flash, Gemini Embedding Model
+## Deployment
 
-## 🚀 Deployment
+- Frontend: Netlify
+- Backend: Render (Python Web Service)
 
-- **Frontend**: Recommended on **Netlify** or **Vercel**.
-- **Backend**: Recommended on **Render**, **Railway**, or **Railway.app** (requires persistent Node.js environment).
-- **Environment Variables**: Ensure `GOOGLE_API_KEY` is set in your production environment.
+Detailed steps: see `DEPLOYMENT.md`.

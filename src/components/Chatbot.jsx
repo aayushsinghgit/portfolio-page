@@ -10,6 +10,28 @@ const EMAIL_KEYWORDS = ['send email', 'send message', 'contact email', 'mail', '
 const isResumeRequest = (text) => RESUME_KEYWORDS.some(k => text.toLowerCase().includes(k));
 const isEmailRequest = (text) => EMAIL_KEYWORDS.some(k => text.toLowerCase().includes(k));
 
+const fallbackLocalResponse = (userInput, isHindi) => {
+  const q = userInput.toLowerCase();
+  if (q.includes('skill') || q.includes('tech') || q.includes('कौशल')) {
+    return isHindi
+      ? 'AI सेवा उपलब्ध न होने पर भी: आयुष React, Node.js, Python, Generative AI, RAG और Cloud (AWS/Azure/GCP) पर काम करते हैं।'
+      : 'Even while AI service is unavailable: Ayush works with React, Node.js, Python, Generative AI, RAG, and cloud (AWS/Azure/GCP).';
+  }
+  if (q.includes('project') || q.includes('प्रोजेक्ट') || q.includes('portfolio')) {
+    return isHindi
+      ? 'AI सेवा अस्थायी रूप से डाउन है। मुख्य प्रोजेक्ट्स: AI Agent Marketplace, Ethereum Crypto Wallet, और यह AI Portfolio।'
+      : 'AI service is temporarily down. Key projects include an AI Agent Marketplace, an Ethereum Crypto Wallet, and this AI portfolio.';
+  }
+  if (q.includes('experience') || q.includes('infosys') || q.includes('अनुभव')) {
+    return isHindi
+      ? 'आयुष के पास Infosys में 3+ वर्षों का फुल-स्टैक और AI अनुभव है।'
+      : 'Ayush has 3+ years of full-stack and AI experience at Infosys.';
+  }
+  return isHindi
+    ? 'AI API अभी उपलब्ध नहीं है, लेकिन मैं बेसिक जानकारी दे सकता हूँ। कौशल, प्रोजेक्ट, अनुभव या संपर्क पूछें।'
+    : 'The AI API is currently unavailable, but I can still help with basics. Ask about skills, projects, experience, or contact.';
+};
+
 // Check for Web Speech API support
 const SpeechRecognition = typeof window !== 'undefined'
   ? window.SpeechRecognition || window.webkitSpeechRecognition
@@ -84,7 +106,7 @@ const Chatbot = () => {
 
   const downloadResume = () => {
     const a = document.createElement('a');
-    a.href = '/Resume.pdf';
+    a.href = '/resume.pdf';
     a.download = 'Ayush_Singh_Resume.pdf';
     a.click();
   };
@@ -119,14 +141,7 @@ const Chatbot = () => {
       return data.response;
     } catch (err) {
       console.error('Chatbot error:', err.message);
-      if (err.message.includes('Failed to fetch') || err.message.includes('NetworkError')) {
-        return isHindi
-          ? '⚠️ सर्वर से कनेक्ट नहीं हो पा रहा। कृपया सुनिश्चित करें कि बैकएंड सर्वर चल रहा है।'
-          : '⚠️ Cannot connect to server. Please make sure the backend server is running.';
-      }
-      return isHindi
-        ? '⚠️ कुछ गलत हो गया। कृपया पुनः प्रयास करें।'
-        : '⚠️ Something went wrong. Please try again.';
+      return fallbackLocalResponse(userInput, isHindi);
     }
   };
 
