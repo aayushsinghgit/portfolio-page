@@ -1,8 +1,29 @@
 import json
 import math
 import os
+import time
+import urllib.request
 from pathlib import Path
 from typing import Any, Dict, List
+
+_github_cache_data = ""
+_github_cache_time = 0
+
+def get_github_context() -> str:
+    global _github_cache_data, _github_cache_time
+    now = time.time()
+    if now - _github_cache_time < 3600 and _github_cache_data:
+        return _github_cache_data
+    try:
+        req = urllib.request.Request("https://api.github.com/users/aayushsinghgit/repos?sort=updated&per_page=5", headers={'User-Agent': 'Mozilla/5.0'})
+        with urllib.request.urlopen(req, timeout=5) as response:
+            data = json.loads(response.read().decode())
+            lines = [f"- {r.get('name')}: {r.get('description') or 'No description'} (Stars: {r.get('stargazers_count')})" for r in data]
+            _github_cache_data = "\n".join(lines)
+            _github_cache_time = now
+            return _github_cache_data
+    except Exception:
+        return ""
 
 from pypdf import PdfReader
 
@@ -19,13 +40,17 @@ PORTFOLIO_CONTEXT_EN = """You are an AI assistant for Ayush Singh's portfolio we
 Ayush is a Full Stack Developer & AI Specialist at Infosys with 3+ years of experience.
 Answer ONLY questions about Ayush - his skills, projects, education, and work experience.
 Be concise, friendly, and professional. Use the retrieved context below as your primary source.
-If something is not mentioned in the context, say you do not have that information."""
+If something is not mentioned in the context, say you do not have that information.
+You may trigger portfolio UI actions by outputting exactly these tokens anywhere in your response:
+[SCROLL_TO_PROJECTS], [SCROLL_TO_SKILLS], [SCROLL_TO_CONTACT]"""
 
 PORTFOLIO_CONTEXT_HI = """आप आयुष सिंह की पोर्टफोलियो वेबसाइट के लिए एक AI सहायक हैं।
 आयुष एक फुल स्टैक डेवलपर और AI विशेषज्ञ हैं जिनके पास Infosys में 3+ वर्षों का अनुभव है।
 केवल आयुष के बारे में प्रश्नों का उत्तर दें - उनके कौशल, परियोजनाएं, शिक्षा, और कार्य अनुभव।
 संक्षिप्त, मित्रवत और पेशेवर रहें। नीचे दिए गए संदर्भ को अपना प्राथमिक स्रोत बनाएं।
-यदि संदर्भ में कुछ नहीं है, विनम्रता से कहें कि आपके पास वह जानकारी नहीं है।"""
+यदि संदर्भ में कुछ नहीं है, विनम्रता से कहें कि आपके पास वह जानकारी नहीं है।
+आप अपने उत्तर में इन टोकन को कहीं भी आउटपुट करके UI नेविगेशन ट्रिगर कर सकते हैं:
+[SCROLL_TO_PROJECTS], [SCROLL_TO_SKILLS], [SCROLL_TO_CONTACT]"""
 
 
 def _chunk_text(text: str, chunk_size: int = 600, overlap: int = 80) -> List[str]:
@@ -189,15 +214,21 @@ Professional Summary:
         scored.sort(key=lambda pair: pair[1], reverse=True)
         return [self.documents[idx] for idx, _ in scored[:k]]
 
-    def generate(self, user_message: str, chat_history: List[Dict[str, Any]], language: str = "en") -> str:
+    def generate_stream(self, user_message: str, chat_history: List[Dict[str, Any]], language: str = "en"):
         if not self.ready:
             ok = self.initialize()
             if not ok:
-                return fallback_response(user_message, language)
+                yield f"data: {json.dumps({'text': fallback_response(user_message, language)})}\n\n"
+                return
 
         try:
             context_docs = self._retrieve(user_message, 4)
             context = "\n\n".join(context_docs)
+            
+            github_data = get_github_context()
+            if github_data:
+                context += f"\n\nLive GitHub Projects:\n{github_data}"
+
             system_text = PORTFOLIO_CONTEXT_HI if language == "hi" else PORTFOLIO_CONTEXT_EN
 
             history_lines: List[str] = []
@@ -217,13 +248,18 @@ Conversation:
 User question: {user_message}
 """
             if genai is None:
-                return fallback_response(user_message, language)
+                yield f"data: {json.dumps({'text': fallback_response(user_message, language)})}\n\n"
+                return
             model = genai.GenerativeModel(CHAT_MODEL)
-            result = _with_retry(lambda: model.generate_content(prompt))
-            text = (result.text or "").strip()
-            return text if text else fallback_response(user_message, language)
-        except Exception:
-            return fallback_response(user_message, language)
+            # Request streaming
+            response = model.generate_content(prompt, stream=True)
+            for chunk in response:
+                text = chunk.text
+                if text:
+                    yield f"data: {json.dumps({'text': text})}\n\n"
+        except Exception as e:
+            print(f"Streaming failed: {e}")
+            yield f"data: {json.dumps({'text': fallback_response(user_message, language)})}\n\n"
 
 
 def build_rag() -> GeminiRAG:

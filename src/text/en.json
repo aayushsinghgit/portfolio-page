@@ -16,7 +16,7 @@
   },
   "about": {
     "title": "About Me",
-    "description": "System Engineer at Infosys with 2+ years of experience building backend services, AI workflows, and data-driven systems. Proficient in Python and Node.js development, Generative AI integrations using OpenAI APIs, large-scale AI data annotation pipelines, and analytics reporting. Skilled in full stack engineering with React.js and modern frameworks, blockchain-based applications using Solidity and Ethereum, and AI data operations. Passionate about creating scalable, intelligent solutions that bridge the gap between cutting-edge AI and real-world applications.",
+    "description": "System Engineer at Infosys with 3+ years of experience building backend services, AI workflows, and data-driven systems. Proficient in Python and Node.js development, Generative AI integrations using OpenAI APIs, large-scale AI data annotation pipelines, and analytics reporting. Skilled in full stack engineering with React.js and modern frameworks, blockchain-based applications using Solidity and Ethereum, and AI data operations. Passionate about creating scalable, intelligent solutions that bridge the gap between cutting-edge AI and real-world applications.",
     "headline": {
       "line1": "Creating",
       "line2": "Digital",
@@ -28,7 +28,7 @@
         "label": "Years Experience"
       },
       "projects": {
-        "number": "7+",
+        "number": "3+",
         "label": "Projects Completed"
       }
     },

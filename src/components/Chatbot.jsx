@@ -46,7 +46,13 @@ const Chatbot = () => {
     : "Hello! 👋 I'm Ayush's AI assistant. How can I help you today?";
 
   const [isOpen, setIsOpen] = useState(false);
-  const [messages, setMessages] = useState([{ type: 'bot', text: getGreeting() }]);
+  const [messages, setMessages] = useState(() => {
+    try {
+      const saved = localStorage.getItem('chatbot_history');
+      if (saved) return JSON.parse(saved);
+    } catch(e) {}
+    return [{ type: 'bot', text: getGreeting() }];
+  });
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [copiedIdx, setCopiedIdx] = useState(null);
@@ -97,7 +103,11 @@ const Chatbot = () => {
   }, []);
 
   useEffect(() => {
-    setMessages([{ type: 'bot', text: getGreeting() }]);
+    localStorage.setItem('chatbot_history', JSON.stringify(messages));
+  }, [messages]);
+
+  useEffect(() => {
+    if (messages.length === 1) setMessages([{ type: 'bot', text: getGreeting() }]);
   }, [language]);
 
   useEffect(() => {
@@ -115,61 +125,17 @@ const Chatbot = () => {
     window.location.href = 'mailto:singhaayu311@gmail.com?subject=Reaching out from Portfolio&body=Hi Ayush,';
   };
 
-  const getBotResponse = async (userInput, history) => {
-    const historyMessages = history
-      .filter(m => m.type === 'user' || m.type === 'bot')
-      .slice(-8)
-      .map(m => ({ role: m.type === 'user' ? 'user' : 'assistant', content: m.text }));
-
-    try {
-      const res = await fetch(`${API_URL}/api/chat`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          message: userInput,
-          history: historyMessages,
-          language: isHindi ? 'hi' : 'en',
-        }),
-      });
-
-      if (!res.ok) {
-        const errorData = await res.json().catch(() => ({}));
-        throw new Error(errorData.error || `Server error: ${res.status}`);
-      }
-
-      const data = await res.json();
-      return data.response;
-    } catch (err) {
-      console.error('Chatbot error:', err.message);
-      return fallbackLocalResponse(userInput, isHindi);
+  const speakText = (text, isHindiProp) => {
+    if ('speechSynthesis' in window) {
+      const utterance = new SpeechSynthesisUtterance(text.replace(/\[.*?\]/g, ''));
+      utterance.lang = isHindiProp ? 'hi-IN' : 'en-US';
+      window.speechSynthesis.speak(utterance);
     }
   };
 
-  const handleSend = useCallback(async (overrideInput) => {
-    const text = (overrideInput ?? input).trim();
-    if (!text || isLoading) return;
-
-    // Handle resume/email locally without API call
-    if (isResumeRequest(text)) {
-      setMessages(prev => [
-        ...prev,
-        { type: 'user', text },
-        { type: 'bot', text: isHindi ? '📄 आपका रिज्यूमे डाउनलोड हो रहा है...' : '📄 Downloading your resume now...', action: 'resume' }
-      ]);
-      setInput('');
-      setTimeout(downloadResume, 300);
-      return;
-    }
-
-    if (isEmailRequest(text)) {
-      setMessages(prev => [
-        ...prev,
-        { type: 'user', text },
-        { type: 'bot', text: isHindi ? '📧 आयुष को ईमेल करने के लिए नीचे क्लिक करें।' : '📧 Click below to email Ayush directly.', action: 'email' }
-      ]);
-      setInput('');
-      return;
-    }
+  const handleSend = useCallback(async (customText = null) => {
+    const text = typeof customText === 'string' ? customText : input;
+    if (!text.trim() || isLoading) return;
 
     const userMsg = { type: 'user', text };
     const currentHistory = [...messages, userMsg];
@@ -177,19 +143,98 @@ const Chatbot = () => {
     setInput('');
     setIsLoading(true);
 
-    const response = await getBotResponse(text, messages);
+    try {
+      const historyMessages = currentHistory
+        .filter(m => m.type === 'user' || m.type === 'bot')
+        .slice(-8)
+        .map(m => ({ role: m.type === 'user' ? 'user' : 'assistant', content: m.text }));
 
-    // Handle special tokens from AI
-    if (response.includes('[RESUME_DOWNLOAD]')) {
-      setMessages(prev => [...prev, { type: 'bot', text: isHindi ? '📄 रिज्यूमे डाउनलोड हो रहा है...' : '📄 Downloading resume...', action: 'resume' }]);
-      setTimeout(downloadResume, 300);
-    } else if (response.includes('[EMAIL_COMPOSE]')) {
-      setMessages(prev => [...prev, { type: 'bot', text: isHindi ? '📧 आयुष को ईमेल करें।' : '📧 Click below to email Ayush.', action: 'email' }]);
-    } else {
-      setMessages(prev => [...prev, { type: 'bot', text: response }]);
+      const res = await fetch(`${API_URL}/api/chat`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          message: text,
+          history: historyMessages,
+          language: isHindi ? 'hi' : 'en',
+        }),
+      });
+
+      if (!res.ok) throw new Error('API request failed');
+
+      let botMessageText = '';
+      setMessages(prev => [...prev, { type: 'bot', text: '' }]);
+      setIsLoading(false); // remove simple loading icon
+
+      const reader = res.body.getReader();
+      const decoder = new TextDecoder();
+      let buffer = '';
+      
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) {
+          if (buffer.startsWith('data: ')) {
+            try {
+              const data = JSON.parse(buffer.slice(6));
+              if (data.text) {
+                botMessageText += data.text;
+                setMessages(prev => {
+                    const newMessages = [...prev];
+                    newMessages[newMessages.length - 1].text = botMessageText.replace(/\[.*?\]/g, '');
+                    return newMessages;
+                });
+              }
+            } catch(e) {}
+          }
+          break;
+        }
+        buffer += decoder.decode(value, { stream: true });
+        
+        const lines = buffer.split('\n\n');
+        buffer = lines.pop(); // save incomplete chunk
+        for (const line of lines) {
+           if (line.startsWith('data: ')) {
+               try {
+                   const data = JSON.parse(line.slice(6));
+                   if (data.text) {
+                       botMessageText += data.text;
+                       setMessages(prev => {
+                           const newMessages = [...prev];
+                           newMessages[newMessages.length - 1].text = botMessageText.replace(/\[.*?\]/g, ''); // hide tokens
+                           return newMessages;
+                       });
+                   }
+               } catch (e) {}
+           }
+        }
+      }
+
+      // Check actions
+      const scrollMatch = botMessageText.match(/\[SCROLL_TO_(.*?)\]/);
+      if (scrollMatch) {
+         const targetId = scrollMatch[1].toLowerCase();
+         const el = document.getElementById(targetId) || document.getElementById('portfolio');
+         if (el) {
+           if (window.lenis) {
+             window.lenis.scrollTo(el);
+           } else {
+             el.scrollIntoView({ behavior: 'smooth' });
+           }
+         }
+      }
+
+      if (botMessageText.includes('[RESUME_DOWNLOAD]')) {
+        setMessages(prev => { const n = [...prev]; n[n.length-1].action = 'resume'; return n; });
+        setTimeout(downloadResume, 300);
+      } else if (botMessageText.includes('[EMAIL_COMPOSE]')) {
+        setMessages(prev => { const n = [...prev]; n[n.length-1].action = 'email'; return n; });
+      }
+
+    } catch (err) {
+      console.error('Chatbot fetch error:', err);
+      const fallback = fallbackLocalResponse(text, isHindi);
+      setMessages(prev => [...prev, { type: 'bot', text: fallback }]);
+      setIsLoading(false);
     }
-
-    setIsLoading(false);
   }, [input, isLoading, isHindi, messages]);
 
   // Ref to always have the latest handleSend in speech recognition callback
@@ -244,17 +289,17 @@ const Chatbot = () => {
     <>
       <motion.button
         onClick={() => setIsOpen(!isOpen)}
-        className="fixed bottom-6 right-6 z-50 w-16 h-16 bg-gradient-to-br from-purple-600 via-blue-600 to-cyan-500 rounded-full flex items-center justify-center shadow-2xl"
+        className="fixed bottom-4 right-4 md:bottom-6 md:right-6 z-50 w-14 h-14 md:w-16 md:h-16 bg-gradient-to-br from-purple-600 via-blue-600 to-cyan-500 rounded-full flex items-center justify-center shadow-2xl"
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.95 }}
       >
         <AnimatePresence mode="wait">
           {isOpen ? (
-            <motion.svg key="close" initial={{ rotate: -90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: 90, opacity: 0 }} className="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <motion.svg key="close" initial={{ rotate: -90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: 90, opacity: 0 }} className="w-6 h-6 md:w-7 md:h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" />
             </motion.svg>
           ) : (
-            <motion.svg key="chat" initial={{ scale: 0, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0, opacity: 0 }} className="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <motion.svg key="chat" initial={{ scale: 0, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0, opacity: 0 }} className="w-6 h-6 md:w-7 md:h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
             </motion.svg>
           )}
@@ -268,7 +313,7 @@ const Chatbot = () => {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.9 }}
             transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-            className="fixed bottom-28 right-6 z-50 w-[400px] h-[600px] bg-white rounded-3xl shadow-2xl flex flex-col overflow-hidden"
+            className="fixed bottom-[80px] right-4 md:bottom-[100px] md:right-6 z-50 w-[calc(100vw-32px)] md:w-[400px] h-[calc(100vh-100px)] max-h-[600px] bg-white rounded-2xl md:rounded-3xl shadow-2xl flex flex-col overflow-hidden"
           >
             {/* Header */}
             <div className="bg-gradient-to-br from-purple-600 via-blue-600 to-cyan-500 p-5 text-white">
@@ -283,7 +328,10 @@ const Chatbot = () => {
                 </div>
                 {/* Clear chat */}
                 <button
-                  onClick={() => setMessages([{ type: 'bot', text: getGreeting() }])}
+                  onClick={() => {
+                      localStorage.removeItem('chatbot_history');
+                      setMessages([{ type: 'bot', text: getGreeting() }]);
+                  }}
                   className="bg-white/20 hover:bg-white/30 transition-colors rounded-full p-1.5"
                   title={isHindi ? 'चैट साफ़ करें' : 'Clear chat'}
                 >
@@ -303,8 +351,9 @@ const Chatbot = () => {
 
             {/* Messages */}
             <div
-              className="flex-1 overflow-y-auto p-4 space-y-3 bg-gray-50"
+              className="flex-1 overflow-y-auto p-4 space-y-3 bg-gray-50 flex flex-col z-0 relative"
               onWheel={(e) => e.stopPropagation()}
+              onTouchMove={(e) => e.stopPropagation()}
             >
               {messages.map((msg, idx) => (
                 <motion.div
@@ -316,10 +365,10 @@ const Chatbot = () => {
                   {msg.type === 'bot' && (
                     <div className="w-7 h-7 bg-gradient-to-br from-purple-600 to-blue-600 rounded-full flex items-center justify-center text-xs mr-2 flex-shrink-0 mt-1">🤖</div>
                   )}
-                  <div className="max-w-[75%] group relative">
-                    <div className={`p-3 rounded-2xl shadow-sm text-sm leading-relaxed whitespace-pre-line ${
+                  <div className="max-w-[85%] md:max-w-[75%] group relative">
+                    <div className={`p-3 rounded-2xl shadow-sm text-sm leading-relaxed whitespace-pre-wrap break-words ${
                       msg.type === 'user'
-                        ? 'bg-gradient-to-br from-purple-600 to-blue-600 text-white rounded-br-md'
+                        ? 'bg-gradient-to-br from-purple-600 to-blue-600 text-white rounded-br-md text-left'
                         : 'bg-white text-gray-800 rounded-bl-md'
                     }`}>
                       {msg.text}
@@ -347,17 +396,27 @@ const Chatbot = () => {
                         {isHindi ? 'ईमेल खोलें' : 'Open Email'}
                       </button>
                     )}
-                    {/* Copy button for bot messages */}
+                    {/* Copy button UI & TTS button */}
                     {msg.type === 'bot' && !msg.action && (
-                      <button
-                        onClick={() => handleCopy(msg.text, idx)}
-                        className="absolute -bottom-1 right-0 opacity-0 group-hover:opacity-100 transition-opacity bg-white border border-gray-200 rounded-full p-1 shadow-sm"
-                      >
-                        {copiedIdx === idx
-                          ? <svg className="w-3 h-3 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>
-                          : <svg className="w-3 h-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>
-                        }
-                      </button>
+                      <div className="absolute -bottom-1 right-0 opacity-0 group-hover:opacity-100 transition-opacity flex gap-1">
+                          <button
+                            onClick={() => speakText(msg.text, isHindi)}
+                            className="bg-white border border-gray-200 rounded-full p-1 shadow-sm hover:bg-gray-100"
+                            title="Read aloud"
+                          >
+                           <svg className="w-3 h-3 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.536 8.464a5 5 0 010 7.072M17.657 6.343a8 8 0 010 11.314M11 5L6 9H2v6h4l5 4V5z" /></svg>
+                          </button>
+                          <button
+                            onClick={() => handleCopy(msg.text, idx)}
+                            className="bg-white border border-gray-200 rounded-full p-1 shadow-sm hover:bg-gray-100"
+                            title="Copy text"
+                          >
+                            {copiedIdx === idx
+                              ? <svg className="w-3 h-3 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>
+                              : <svg className="w-3 h-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>
+                            }
+                          </button>
+                      </div>
                     )}
                   </div>
                 </motion.div>
@@ -381,9 +440,9 @@ const Chatbot = () => {
 
             {/* Quick Actions — shown only on first message */}
             {messages.length === 1 && (
-              <div className="px-4 py-3 bg-white border-t border-gray-100">
+              <div className="px-4 py-3 bg-white border-t border-gray-100 z-10 relative">
                 <p className="text-xs text-gray-400 mb-2">{isHindi ? 'त्वरित क्रियाएं:' : 'Quick actions:'}</p>
-                <div className="grid grid-cols-4 gap-1.5">
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-1.5">
                   {quickActions.map((action, idx) => (
                     <button
                       key={idx}
@@ -399,9 +458,9 @@ const Chatbot = () => {
             )}
 
             {/* Input */}
-            <div className="p-4 bg-white border-t border-gray-100">
-              <div className="flex gap-2 items-center">
-                <div className="flex-1 bg-gray-100 rounded-2xl px-4 py-2.5 flex items-center">
+            <div className="p-3 md:p-4 bg-white border-t border-gray-100 z-10 relative">
+              <div className="flex gap-2 items-end md:items-center">
+                <div className="flex-1 bg-gray-100 rounded-2xl px-3 py-2 md:px-4 md:py-2.5 flex items-center h-full min-h-[40px]">
                   <input
                     ref={inputRef}
                     type="text"
@@ -421,7 +480,7 @@ const Chatbot = () => {
                     disabled={isLoading}
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
-                    className={`w-10 h-10 rounded-full flex items-center justify-center shadow-lg flex-shrink-0 transition-colors ${
+                    className={`w-10 h-10 md:w-10 md:h-10 rounded-full flex items-center justify-center shadow-lg flex-shrink-0 transition-colors self-center ${
                       isListening
                         ? 'bg-red-500 text-white animate-pulse'
                         : 'bg-gray-200 text-gray-600 hover:bg-gray-300'
@@ -446,7 +505,7 @@ const Chatbot = () => {
                   disabled={isLoading || !input.trim()}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  className="w-10 h-10 bg-gradient-to-br from-purple-600 to-blue-600 rounded-full flex items-center justify-center text-white disabled:opacity-40 disabled:cursor-not-allowed shadow-lg flex-shrink-0"
+                  className="w-10 h-10 md:w-10 md:h-10 bg-gradient-to-br from-purple-600 to-blue-600 rounded-full flex items-center justify-center text-white disabled:opacity-40 disabled:cursor-not-allowed shadow-lg flex-shrink-0 self-center"
                 >
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />

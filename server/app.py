@@ -9,11 +9,15 @@ from typing import Any, Dict, List
 from dotenv import load_dotenv
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import StreamingResponse
 from pydantic import BaseModel, EmailStr, Field
 
+import hashlib
+import json
 from rag import build_rag, fallback_response
+from analytics import analytics_db
 
-load_dotenv()
+load_dotenv(os.path.join(os.path.dirname(__file__), ".env"))
 
 app = FastAPI(title="Portfolio Backend", version="2.0.0")
 app.add_middleware(
@@ -102,10 +106,17 @@ def contact(payload: ContactPayload):
 
 
 @app.post("/api/chat")
-def chat(payload: ChatPayload, request: Request):
+async def chat(payload: ChatPayload, request: Request):
     client_ip = request.client.host if request.client else "unknown"
+    
+    # Analytics Logging
+    client_ip_hash = hashlib.sha256(client_ip.encode()).hexdigest()
+    analytics_db.log_interaction(client_ip_hash, payload.message, payload.language)
+
     if not _allow_request(client_ip):
-        return {"error": "Too many requests. Please wait a moment.", "response": fallback_response(payload.message, payload.language)}
+        async def fallback_stream():
+            yield f"data: {json.dumps({'text': fallback_response(payload.message, payload.language)})}\n\n"
+        return StreamingResponse(fallback_stream(), media_type="text/event-stream")
 
     history: List[Dict[str, Any]] = [
         {"role": item.role, "content": item.content}
@@ -114,10 +125,14 @@ def chat(payload: ChatPayload, request: Request):
     ]
 
     try:
-        response = rag.generate(payload.message.strip(), history, payload.language)
-        return {"response": response}
+        return StreamingResponse(
+            rag.generate_stream(payload.message.strip(), history, payload.language), 
+            media_type="text/event-stream"
+        )
     except Exception:
-        return {"response": fallback_response(payload.message, payload.language)}
+        async def fallback_stream():
+            yield f"data: {json.dumps({'text': fallback_response(payload.message, payload.language)})}\n\n"
+        return StreamingResponse(fallback_stream(), media_type="text/event-stream")
 
 
 if __name__ == "__main__":
