@@ -9,6 +9,18 @@ const EMAIL_KEYWORDS = ['send email', 'send message', 'contact email', 'mail', '
 
 const isResumeRequest = (text) => RESUME_KEYWORDS.some(k => text.toLowerCase().includes(k));
 const isEmailRequest = (text) => EMAIL_KEYWORDS.some(k => text.toLowerCase().includes(k));
+const SCROLL_TARGET_MAP = {
+  projects: 'portfolio',
+  project: 'portfolio',
+  skills: 'skills',
+  skill: 'skills',
+  contact: 'contact',
+};
+const SCROLL_INTENT_RULES = [
+  { target: 'portfolio', patterns: ['scroll to projects', 'go to projects', 'show projects', 'portfolio section', 'प्रोजेक्ट पर जाओ', 'प्रोजेक्ट दिखाओ'] },
+  { target: 'skills', patterns: ['scroll to skills', 'go to skills', 'show skills', 'skills section', 'कौशल पर जाओ', 'स्किल्स दिखाओ'] },
+  { target: 'contact', patterns: ['scroll to contact', 'go to contact', 'show contact', 'contact section', 'संपर्क पर जाओ', 'कॉन्टैक्ट दिखाओ'] },
+];
 
 const fallbackLocalResponse = (userInput, isHindi) => {
   const q = userInput.toLowerCase();
@@ -30,6 +42,14 @@ const fallbackLocalResponse = (userInput, isHindi) => {
   return isHindi
     ? 'AI API अभी उपलब्ध नहीं है, लेकिन मैं बेसिक जानकारी दे सकता हूँ। कौशल, प्रोजेक्ट, अनुभव या संपर्क पूछें।'
     : 'The AI API is currently unavailable, but I can still help with basics. Ask about skills, projects, experience, or contact.';
+};
+
+const detectScrollIntentTarget = (text) => {
+  const normalized = (text || '').toLowerCase();
+  for (const rule of SCROLL_INTENT_RULES) {
+    if (rule.patterns.some((pattern) => normalized.includes(pattern))) return rule.target;
+  }
+  return null;
 };
 
 // Check for Web Speech API support
@@ -125,6 +145,16 @@ const Chatbot = () => {
     window.location.href = 'mailto:singhaayu311@gmail.com?subject=Reaching out from Portfolio&body=Hi Ayush,';
   };
 
+  const scrollToSection = (targetId) => {
+    const el = document.getElementById(targetId) || document.getElementById('portfolio');
+    if (!el) return;
+    if (window.lenis) {
+      window.lenis.scrollTo(el);
+    } else {
+      el.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   const speakText = (text, isHindiProp) => {
     if ('speechSynthesis' in window) {
       const utterance = new SpeechSynthesisUtterance(text.replace(/\[.*?\]/g, ''));
@@ -136,6 +166,18 @@ const Chatbot = () => {
   const handleSend = useCallback(async (customText = null) => {
     const text = typeof customText === 'string' ? customText : input;
     if (!text.trim() || isLoading) return;
+
+    const localScrollTarget = detectScrollIntentTarget(text);
+    if (localScrollTarget) {
+      const userMsg = { type: 'user', text };
+      const botText = isHindi
+        ? 'ठीक है, मैं आपको उस सेक्शन पर ले जा रहा हूँ।'
+        : 'Sure, taking you to that section now.';
+      setMessages((prev) => [...prev, userMsg, { type: 'bot', text: botText }]);
+      setInput('');
+      setTimeout(() => scrollToSection(localScrollTarget), 120);
+      return;
+    }
 
     const userMsg = { type: 'user', text };
     const currentHistory = [...messages, userMsg];
@@ -211,15 +253,9 @@ const Chatbot = () => {
       // Check actions
       const scrollMatch = botMessageText.match(/\[SCROLL_TO_(.*?)\]/);
       if (scrollMatch) {
-         const targetId = scrollMatch[1].toLowerCase();
-         const el = document.getElementById(targetId) || document.getElementById('portfolio');
-         if (el) {
-           if (window.lenis) {
-             window.lenis.scrollTo(el);
-           } else {
-             el.scrollIntoView({ behavior: 'smooth' });
-           }
-         }
+         const rawTarget = scrollMatch[1].toLowerCase();
+         const targetId = SCROLL_TARGET_MAP[rawTarget] || rawTarget;
+         scrollToSection(targetId);
       }
 
       if (botMessageText.includes('[RESUME_DOWNLOAD]')) {
@@ -289,6 +325,8 @@ const Chatbot = () => {
     <>
       <motion.button
         onClick={() => setIsOpen(!isOpen)}
+        data-testid="chatbot-toggle"
+        aria-label={isOpen ? 'Close chatbot' : 'Open chatbot'}
         className="fixed bottom-4 right-4 md:bottom-6 md:right-6 z-50 w-14 h-14 md:w-16 md:h-16 bg-gradient-to-br from-purple-600 via-blue-600 to-cyan-500 rounded-full flex items-center justify-center shadow-2xl"
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.95 }}
@@ -446,6 +484,7 @@ const Chatbot = () => {
                   {quickActions.map((action, idx) => (
                     <button
                       key={idx}
+                      data-testid={`chatbot-quick-${idx}`}
                       onClick={() => handleSend(action.query)}
                       className="bg-gray-100 hover:bg-gray-200 rounded-xl p-2 transition-colors text-center"
                     >
@@ -463,6 +502,7 @@ const Chatbot = () => {
                 <div className="flex-1 bg-gray-100 rounded-2xl px-3 py-2 md:px-4 md:py-2.5 flex items-center h-full min-h-[40px]">
                   <input
                     ref={inputRef}
+                    data-testid="chatbot-input"
                     type="text"
                     value={input}
                     onChange={(e) => setInput(e.target.value)}
@@ -502,6 +542,8 @@ const Chatbot = () => {
                 {/* Send Button */}
                 <motion.button
                   onClick={() => handleSend()}
+                  data-testid="chatbot-send"
+                  aria-label="Send chatbot message"
                   disabled={isLoading || !input.trim()}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
