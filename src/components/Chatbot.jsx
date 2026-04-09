@@ -301,6 +301,11 @@ const Chatbot = () => {
     }
   }, [isListening, isHindi]);
 
+  const clearChat = useCallback(() => {
+    localStorage.removeItem('chatbot_history');
+    setMessages([{ type: 'bot', text: getGreeting() }]);
+  }, [isHindi]);
+
   const handleCopy = (text, idx) => {
     navigator.clipboard.writeText(text);
     setCopiedIdx(idx);
@@ -327,7 +332,7 @@ const Chatbot = () => {
         onClick={() => setIsOpen(!isOpen)}
         data-testid="chatbot-toggle"
         aria-label={isOpen ? 'Close chatbot' : 'Open chatbot'}
-        className="fixed bottom-4 right-4 md:bottom-6 md:right-6 z-50 w-14 h-14 md:w-16 md:h-16 bg-gradient-to-br from-purple-600 via-blue-600 to-cyan-500 rounded-full flex items-center justify-center shadow-2xl"
+        className="fixed bottom-24 right-4 md:bottom-6 md:right-6 z-[70] w-14 h-14 md:w-16 md:h-16 bg-gradient-to-br from-purple-600 via-blue-600 to-cyan-500 rounded-full flex items-center justify-center shadow-2xl"
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.95 }}
       >
@@ -351,7 +356,7 @@ const Chatbot = () => {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.9 }}
             transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-            className="fixed bottom-[80px] right-4 md:bottom-[100px] md:right-6 z-50 w-[calc(100vw-32px)] md:w-[400px] h-[calc(100vh-100px)] max-h-[600px] bg-white rounded-2xl md:rounded-3xl shadow-2xl flex flex-col overflow-hidden"
+            className="fixed bottom-[96px] right-4 md:bottom-[100px] md:right-6 z-[70] w-[calc(100vw-32px)] md:w-[400px] h-[calc(100vh-120px)] max-h-[600px] bg-white rounded-2xl md:rounded-3xl shadow-2xl flex flex-col overflow-hidden"
           >
             {/* Header */}
             <div className="bg-gradient-to-br from-purple-600 via-blue-600 to-cyan-500 p-5 text-white">
@@ -366,10 +371,7 @@ const Chatbot = () => {
                 </div>
                 {/* Clear chat */}
                 <button
-                  onClick={() => {
-                      localStorage.removeItem('chatbot_history');
-                      setMessages([{ type: 'bot', text: getGreeting() }]);
-                  }}
+                  onClick={clearChat}
                   className="bg-white/20 hover:bg-white/30 transition-colors rounded-full p-1.5"
                   title={isHindi ? 'चैट साफ़ करें' : 'Clear chat'}
                 >

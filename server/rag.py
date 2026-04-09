@@ -6,22 +6,24 @@ import urllib.request
 from pathlib import Path
 from typing import Any, Dict, List
 
-_github_cache_data = ""
-_github_cache_time = 0
+_github_cache: Dict[str, Any] = {"data": "", "time": 0}
+
+_GITHUB_API_URL = "https://api.github.com/users/aayushsinghgit/repos?sort=updated&per_page=5"
 
 def get_github_context() -> str:
-    global _github_cache_data, _github_cache_time
     now = time.time()
-    if now - _github_cache_time < 3600 and _github_cache_data:
-        return _github_cache_data
+    if now - _github_cache["time"] < 3600 and _github_cache["data"]:
+        return _github_cache["data"]
     try:
-        req = urllib.request.Request("https://api.github.com/users/aayushsinghgit/repos?sort=updated&per_page=5", headers={'User-Agent': 'Mozilla/5.0'})
-        with urllib.request.urlopen(req, timeout=5) as response:
+        req = urllib.request.Request(_GITHUB_API_URL, headers={"User-Agent": "Mozilla/5.0"})
+        if not _GITHUB_API_URL.startswith("https://"):
+            raise ValueError("Only HTTPS URLs are permitted")
+        with urllib.request.urlopen(req, timeout=5) as response:  # noqa: S310
             data = json.loads(response.read().decode())
             lines = [f"- {r.get('name')}: {r.get('description') or 'No description'} (Stars: {r.get('stargazers_count')})" for r in data]
-            _github_cache_data = "\n".join(lines)
-            _github_cache_time = now
-            return _github_cache_data
+            _github_cache["data"] = "\n".join(lines)
+            _github_cache["time"] = now
+            return _github_cache["data"]
     except Exception:
         return ""
 
@@ -251,8 +253,8 @@ User question: {user_message}
                 yield f"data: {json.dumps({'text': fallback_response(user_message, language)})}\n\n"
                 return
             model = genai.GenerativeModel(CHAT_MODEL)
-            # Request streaming
-            response = model.generate_content(prompt, stream=True)
+            generation_config = genai.types.GenerationConfig(max_output_tokens=512)
+            response = model.generate_content(prompt, stream=True, generation_config=generation_config)
             for chunk in response:
                 text = chunk.text
                 if text:
