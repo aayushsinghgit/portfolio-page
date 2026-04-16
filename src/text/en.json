@@ -46,13 +46,13 @@
     },
     "description": "Specialized in modern technologies and frameworks for building scalable digital solutions.",
     "categories": {
-      "languages": "Languages",
-      "backend": "Backend",
-      "frontend": "Frontend",
-      "blockchain": "Blockchain",
-      "ai": "AI & Data",
-      "databases": "Databases",
-      "tools": "Infrastructure & Tools"
+      "ml_deep_learning": "ML / Deep Learning",
+      "llm_genai": "LLM & GenAI",
+      "agentic_frameworks": "Agentic Frameworks",
+      "rag_retrieval": "RAG & Retrieval",
+      "mlops_eval": "MLOps & Evaluation",
+      "safety_governance": "Safety & Governance",
+      "cloud_dev": "Cloud & Dev"
     }
   },
   "certifications": {
@@ -122,7 +122,7 @@
         "github": "https://github.com/aayushsinghgit"
       },
       {
-        "title": "CoCo - AI Agent and SaaS Application Marketplace",
+        "title": "NeuroMarket - AI Agent and SaaS Application Marketplace",
         "description": "Marketplace platform for AI agents and SaaS applications with integrated discovery and deployment capabilities.",
         "tech": [
           "React.js",

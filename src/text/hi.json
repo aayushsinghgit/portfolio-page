@@ -45,10 +45,13 @@
     },
     "description": "स्केलेबल डिजिटल समाधान बनाने के लिए आधुनिक तकनीकों और फ्रेमवर्क में विशेषज्ञता।",
     "categories": {
-      "mern": "MERN स्टैक",
-      "blockchain": "ब्लॉकचेन",
-      "ai": "जेनेरेटिव AI",
-      "automation": "वर्कफ़्लो ऑटोमेशन"
+      "ml_deep_learning": "ML / डीप लर्निंग",
+      "llm_genai": "LLM और GenAI",
+      "agentic_frameworks": "एजेंटिक फ्रेमवर्क",
+      "rag_retrieval": "RAG और रिट्रीवल",
+      "mlops_eval": "MLOps और इवैल्यूएशन",
+      "safety_governance": "सेफ्टी और गवर्नेंस",
+      "cloud_dev": "क्लाउड और देव"
     }
   },
   "certifications": {

@@ -6,54 +6,72 @@ import { fadeInUp, staggerContainer } from '../utils/animations';
 const Skills = () => {
   const skillCategories = [
     {
-      key: 'languages',
+      key: 'ml_deep_learning',
       skills: [
+        { name: 'PyTorch', icon: 'https://cdn.simpleicons.org/pytorch' },
+        { name: 'Transformers', icon: 'https://cdn.simpleicons.org/huggingface' },
+        { name: 'LoRA/PEFT', icon: 'https://cdn.simpleicons.org/pytorch' },
+        { name: 'Zephyr-7B', icon: 'https://cdn.simpleicons.org/huggingface' },
+        { name: 'Prompt Engineering', icon: 'https://cdn.simpleicons.org/probot' }
+      ]
+    },
+    {
+      key: 'llm_genai',
+      skills: [
+        { name: 'OpenAI GPT-4/3.5', icon: 'https://cdn.simpleicons.org/openai' },
+        { name: 'Azure OpenAI', icon: 'https://cdn.simpleicons.org/microsoftazure' },
+        { name: 'Azure AI Foundry', icon: 'https://cdn.simpleicons.org/microsoftazure' },
+        { name: 'Semantic Kernel', icon: 'https://cdn.simpleicons.org/microsoft' }
+      ]
+    },
+    {
+      key: 'agentic_frameworks',
+      skills: [
+        { name: 'LangChain', icon: 'https://cdn.simpleicons.org/langchain' },
+        { name: 'LangGraph', icon: 'https://cdn.simpleicons.org/langchain' },
+        { name: 'CrewAI', icon: 'https://cdn.simpleicons.org/groupme' },
+        { name: 'AutoGen', icon: 'https://cdn.simpleicons.org/microsoft' },
+        { name: 'MCP Servers', icon: 'https://cdn.simpleicons.org/serverless' }
+      ]
+    },
+    {
+      key: 'rag_retrieval',
+      skills: [
+        { name: 'Azure AI Search', icon: 'https://cdn.simpleicons.org/microsoftazure' },
+        { name: 'FAISS', icon: 'https://cdn.simpleicons.org/meta' },
+        { name: 'Pinecone', icon: 'https://cdn.simpleicons.org/pinecone' },
+        { name: 'pgvector', icon: 'https://cdn.simpleicons.org/postgresql' },
+        { name: 'Hybrid Search', icon: 'https://cdn.simpleicons.org/google' }
+      ]
+    },
+    {
+      key: 'mlops_eval',
+      skills: [
+        { name: 'LangSmith', icon: 'https://cdn.simpleicons.org/langchain' },
+        { name: 'DeepEval/Ragas', icon: 'https://cdn.simpleicons.org/testcafe' },
+        { name: 'Docker', icon: 'https://cdn.simpleicons.org/docker' },
+        { name: 'Kubernetes', icon: 'https://cdn.simpleicons.org/kubernetes' }
+      ]
+    },
+    {
+      key: 'safety_governance',
+      skills: [
+        { name: 'Guardrails', icon: 'https://cdn.simpleicons.org/shield' },
+        { name: 'Policy Enforcement', icon: 'https://cdn.simpleicons.org/policy' },
+        { name: 'Red-Teaming', icon: 'https://cdn.simpleicons.org/bug' },
+        { name: 'Hallucination Detection', icon: 'https://cdn.simpleicons.org/eye' }
+      ]
+    },
+    {
+      key: 'cloud_dev',
+      skills: [
+        { name: 'Azure/AWS/GCP', icon: 'https://cdn.simpleicons.org/microsoftazure' },
         { name: 'Python', icon: 'https://cdn.simpleicons.org/python' },
-        { name: 'JavaScript', icon: 'https://cdn.simpleicons.org/javascript' },
-        { name: 'Solidity', icon: 'https://cdn.simpleicons.org/solidity' },
-        { name: 'SQL', icon: 'https://cdn.simpleicons.org/mysql' }
-      ]
-    },
-    {
-      key: 'backend',
-      skills: [
         { name: 'Node.js', icon: 'https://cdn.simpleicons.org/nodedotjs' },
-        { name: 'REST API', icon: 'https://cdn.simpleicons.org/fastapi' }
-      ]
-    },
-    {
-      key: 'frontend',
-      skills: [
         { name: 'React.js', icon: 'https://cdn.simpleicons.org/react' },
-        { name: 'Tailwind CSS', icon: 'https://cdn.simpleicons.org/tailwindcss' }
-      ]
-    },
-    {
-      key: 'blockchain',
-      skills: [
-        { name: 'Ethereum', icon: 'https://cdn.simpleicons.org/ethereum' },
-        { name: 'Smart Contracts', icon: 'https://cdn.simpleicons.org/solidity' }
-      ]
-    },
-    {
-      key: 'ai',
-      skills: [
-        { name: 'Hugging Face', icon: 'https://cdn.simpleicons.org/huggingface' },
-        { name: 'Generative AI', icon: 'https://cdn.simpleicons.org/tensorflow' }
-      ]
-    },
-    {
-      key: 'databases',
-      skills: [
         { name: 'MongoDB', icon: 'https://cdn.simpleicons.org/mongodb' },
-        { name: 'SQL', icon: 'https://cdn.simpleicons.org/postgresql' }
-      ]
-    },
-    {
-      key: 'tools',
-      skills: [
-        { name: 'Apache Tomcat', icon: 'https://cdn.simpleicons.org/apachetomcat' },
-        { name: 'Git & GitHub', icon: 'https://cdn.simpleicons.org/github' }
+        { name: 'PostgreSQL', icon: 'https://cdn.simpleicons.org/postgresql' },
+        { name: 'Git', icon: 'https://cdn.simpleicons.org/git' }
       ]
     }
   ];
@@ -81,8 +99,8 @@ const Skills = () => {
             {texts.skills.description}
           </p>
         </motion.div>
-        
-        <motion.div 
+
+        <motion.div
           variants={staggerContainer}
           initial="initial"
           whileInView="animate"
@@ -90,7 +108,7 @@ const Skills = () => {
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12"
         >
           {skillCategories.map((category, categoryIndex) => (
-            <motion.div 
+            <motion.div
               key={category.key}
               variants={fadeInUp}
               className="group"
@@ -101,15 +119,15 @@ const Skills = () => {
                 </h3>
                 <div className="w-12 h-px bg-gray-600 group-hover:w-16 group-hover:bg-white transition-all duration-300" />
               </div>
-              
+
               <div className="space-y-4">
                 {category.skills.map((skill, index) => (
-                  <motion.div 
+                  <motion.div
                     key={skill.name}
                     initial={{ opacity: 0, x: -20 }}
                     whileInView={{ opacity: 1, x: 0 }}
                     whileHover={{ x: 10 }}
-                    transition={{ 
+                    transition={{
                       delay: (categoryIndex * 0.1) + (index * 0.05),
                       duration: 0.3,
                       ease: [0.6, -0.05, 0.01, 0.99]
@@ -118,8 +136,8 @@ const Skills = () => {
                     className="group/skill flex items-center space-x-3 cursor-pointer"
                   >
                     <div className="w-5 h-5 opacity-80 group-hover/skill:opacity-100 transition-opacity duration-300">
-                      <img 
-                        src={skill.icon} 
+                      <img
+                        src={skill.icon}
                         alt={skill.name}
                         className="w-full h-full object-contain"
                       />
