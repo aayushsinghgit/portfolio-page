@@ -1,0 +1,26 @@
+name: Refresh project screenshots
+on:
+  schedule:
+    - cron: '0 3 * * 1'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  screenshot:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: { token: '${{ secrets.GITHUB_TOKEN }}' }
+      - uses: actions/setup-node@v4
+        with: { node-version: '20', cache: 'npm' }
+      - run: npm ci
+      - run: npx playwright install chromium --with-deps
+      - run: sudo apt-get install -y webp
+      - run: mkdir -p public/media/projects
+      - run: node scripts/capture-screenshots.js
+      - run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add public/media/projects/
+          git diff --staged --quiet || git commit -m "chore: refresh screenshots [skip ci]"
+          git push

@@ -1,0 +1,179 @@
+{
+  "nav": {
+    "home": "Home",
+    "about": "About",
+    "skills": "Skills",
+    "portfolio": "Portfolio",
+    "contact": "Contact"
+  },
+  "hero": {
+    "greeting": "Hi, I'm",
+    "name": "Ayush Singh",
+    "title": "System Engineer | Infrastructure Full Stack Developer",
+    "subtitle": "Backend and AI-focused engineer with 3+ years of experience building scalable systems and AI-driven solutions",
+    "scrollPrompt": "Scroll to explore",
+    "downloadResume": "Download Resume"
+  },
+  "about": {
+    "title": "About Me",
+    "description": "System Engineer at Infosys with 3+ years of experience building backend services, AI workflows, and data-driven systems. Proficient in Python and Node.js development, Generative AI integrations using OpenAI APIs, large-scale AI data annotation pipelines, and analytics reporting. Skilled in full stack engineering with React.js and modern frameworks, blockchain-based applications using Solidity and Ethereum, and AI data operations. Passionate about creating scalable, intelligent solutions that bridge the gap between cutting-edge AI and real-world applications.",
+    "headline": {
+      "line1": "Creating",
+      "line2": "Digital",
+      "line3": "Experiences"
+    },
+    "stats": {
+      "experience": {
+        "number": "3+",
+        "label": "Years Experience"
+      },
+      "projects": {
+        "number": "3+",
+        "label": "Projects Completed"
+      }
+    },
+    "cta": "LET'S WORK TOGETHER"
+  },
+  "brands": {
+    "title": "Companies I Worked With",
+    "subtitle": "TRUSTED BY LEADING COMPANIES"
+  },
+  "skills": {
+    "title": "Skills & Technologies",
+    "headline": {
+      "line1": "Technical",
+      "line2": "Expertise"
+    },
+    "description": "Specialized in modern technologies and frameworks for building scalable digital solutions.",
+    "categories": {
+      "ml_deep_learning": "ML / Deep Learning",
+      "llm_genai": "LLM & GenAI",
+      "agentic_frameworks": "Agentic Frameworks",
+      "rag_retrieval": "RAG & Retrieval",
+      "mlops_eval": "MLOps & Evaluation",
+      "safety_governance": "Safety & Governance",
+      "cloud_dev": "Cloud & Dev"
+    }
+  },
+  "certifications": {
+    "title": "Certifications",
+    "subtitle": "CREDENTIALS",
+    "headline": {
+      "line1": "Certified",
+      "line2": "Excellence"
+    },
+    "description": "Continuous learning and professional development through industry-recognized certifications.",
+    "loadMore": "LOAD MORE",
+    "items": [
+      {
+        "title": "OpenAI API Developer",
+        "issuer": "OpenAI",
+        "date": "Earned Dec 2023",
+        "id": "OP-827364",
+        "link": "https://openai.com",
+        "logo": "https://cdn.simpleicons.org/openai/white"
+      },
+      {
+        "title": "Python Developer",
+        "issuer": "Infosys",
+        "date": "Earned Oct 2023",
+        "id": "INF-PY-928",
+        "link": "https://infosys.com",
+        "logo": "https://cdn.simpleicons.org/python/white"
+      },
+      {
+        "title": "Data Consultant",
+        "issuer": "Infosys",
+        "date": "Earned Aug 2023",
+        "id": "INF-DC-442",
+        "link": "https://infosys.com",
+        "logo": "https://cdn.simpleicons.org/databricks/white"
+      },
+      {
+        "title": "Generative AI Professional Developer",
+        "issuer": "Google Cloud",
+        "date": "Earned Jan 2024",
+        "id": "GC-GAI-771",
+        "link": "https://cloud.google.com",
+        "logo": "https://cdn.simpleicons.org/googlecloud/white"
+      }
+    ]
+  },
+  "portfolio": {
+    "title": "Featured Projects",
+    "headline": "Selected Work",
+    "projectLabel": "PROJECT",
+    "links": {
+      "viewProject": "VIEW PROJECT",
+      "github": "GITHUB"
+    },
+    "projects": [
+      {
+        "title": "Crypto Wallet",
+        "description": "Decentralized crypto wallet enabling users to send and receive cryptocurrency using wallet addresses. Implemented Ethereum smart contracts using Solidity for secure on-chain transaction execution.",
+        "tech": [
+          "React.js",
+          "Tailwind CSS",
+          "Solidity",
+          "Node.js",
+          "Ethereum"
+        ],
+        "link": "https://cryptowallet17.netlify.app",
+        "github": "https://github.com/aayushsinghgit"
+      },
+      {
+        "title": "NeuroMarket - AI Agent and SaaS Application Marketplace",
+        "description": "Marketplace platform for AI agents and SaaS applications with integrated discovery and deployment capabilities.",
+        "tech": [
+          "React.js",
+          "Node.js",
+          "AI Integration",
+          "Marketplace"
+        ],
+        "link": "https://neuromarket17.netlify.app",
+        "github": "https://github.com/aayushsinghgit"
+      },
+      {
+        "title": "Portfolio",
+        "description": "Personal portfolio website showcasing projects, skills, and professional experience with multilingual support.",
+        "tech": [
+          "React.js",
+          "Vite",
+          "Tailwind CSS",
+          "Three.js"
+        ],
+        "link": "https://ayushsingh17.netlify.app",
+        "github": "https://github.com/aayushsinghgit/portfolio-page"
+      }
+    ]
+  },
+  "contact": {
+    "title": "Get In Touch",
+    "headline": {
+      "line1": "Let's Create",
+      "line2": "Something Great"
+    },
+    "description": "Ready to bring your ideas to life? Let's discuss your next project and create something extraordinary together.",
+    "info": {
+      "email": "singhaayu311@gmail.com",
+      "phone": "+91 74618 79795",
+      "location": "Dwarka, South West Delhi – 110078",
+      "linkedin": "linkedin.com/in/aayush-singh-172992220",
+      "portfolio": "ayushsingh17.netlify.app",
+      "cryptoWallet": "cryptowallet17.netlify.app"
+    },
+    "sections": {
+      "getInTouch": "Get In Touch",
+      "followMe": "Follow Me"
+    },
+    "form": {
+      "name": "Name",
+      "email": "Email",
+      "message": "Message",
+      "send": "Send Message"
+    }
+  },
+  "footer": {
+    "copyright": "© 2024 Ayush Singh. All rights reserved."
+  }
+}
